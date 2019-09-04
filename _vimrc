@@ -15,9 +15,15 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'itchyny/lightline.vim'
+Plugin 'dracula/vim'
+Plugin 'alvan/vim-closetag'
+Plugin 'Yggdroot/indentLine'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
+
+" vim closetag configs
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.js'
 
 " Ale configs
 let g:ale_linters = {
@@ -56,11 +62,17 @@ let g:lightline = {
 " ===================== Real configs ====================
 inoremap jk <ESC>
 map <C-S-f> <Plug>CtrlSFPrompt
+map <C-j> <C-e>
+map <C-k> <C-y>
+nnoremap <silent> <C-Tab> :bn<CR>
+nnoremap <silent> <C-S-Tab> :bp<CR>
+
 let mapleader = "\<Space>"
 
 set relativenumber
 set number
-colo desert
+" colo desert
+colo dracula
 
 set noswapfile
 set nobackup
@@ -91,6 +103,7 @@ set autoindent
 set complete-=i
 set showmatch
 set smarttab
+set encoding=utf-8
 
 set et
 set tabstop=2

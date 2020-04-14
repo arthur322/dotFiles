@@ -1,19 +1,25 @@
 call plug#begin()
-" Plug 'morhetz/gruvbox'
+Plug 'morhetz/gruvbox'
+" Plug 'mhartington/oceanic-next'
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
+Plug 'ryanoasis/vim-devicons'
 Plug 'preservim/nerdtree'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'easymotion/vim-easymotion'
 Plug 'vim-airline/vim-airline'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'sheerun/vim-polyglot'
-Plug 'mhartington/oceanic-next'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'dense-analysis/ale'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mattn/emmet-vim'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'alvan/vim-closetag'
 " Plug 'ternjs/tern_for_vim', { 'do' : 'npm install' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "" Denite
@@ -32,8 +38,13 @@ if (has("termguicolors"))
  set termguicolors
 endif
 syntax enable
-colorscheme OceanicNext
+colorscheme gruvbox
+let g:airline_theme='onehalfdark'
+let g:gruvbox_contrast_dark = 'hard'
+set background=dark
 
+" Sets
+set encoding=UTF-8
 set hidden
 set nobackup
 set nowritebackup
@@ -57,23 +68,40 @@ set autoindent
 set copyindent
 set noshowcmd
 set splitbelow
+set splitright
 set noshowmode
+set undodir=~/.config/nvim/undodir
+set undofile
 
 let mapleader="\<space>"
 " configuration file
 nnoremap <leader>oc :vsplit ~/.config/nvim/init.vim<cr>
 nnoremap <leader>cs :source ~/.config/nvim/init.vim<cr>
 nnoremap <leader>pi :PlugInstall<cr>
+" Scroll
+nnoremap <C-j> 3<C-e>
+nnoremap <C-k> 3<C-y>
+" Break line
+inoremap <C-j> <Esc>o
+inoremap <C-k> <Esc>O
+" Move line with alt key
+nnoremap <M-j> ddp
+nnoremap <M-k> ddkP
+vnoremap <M-j> :m '>+1<CR>gv=gv
+vnoremap <M-k> :m '<-2<CR>gv=gv
 " Bind esc key
 inoremap jk <Esc>
 inoremap kj <Esc>
 " Bind save
 noremap <C-s> :w<cr>
+inoremap <C-s> <Esc>:w<cr>a
 " Fzf
-nnoremap <C-p> :Files<cr>
-nnoremap <C-f> :CtrlSF 
+nnoremap <C-p> :GFiles<cr>
+nnoremap <C-f> :CtrlSF<space>
+" Prettier
+nmap <leader>pp <Plug>(Prettier)
 " Bind emmet
-let g:user_emmet_leader_key=','
+let g:user_emmet_leader_key='ç'
 " Configure folding
 " zc - Close the fold
 " zM - Close all folds
@@ -84,6 +112,7 @@ let g:user_emmet_leader_key=','
 " set foldcolumn=1
 " let javaScript_fold=1
 " set foldlevelstart=99
+map <C-_> :nohl<cr>
 
 " Nerdtree
 " === NERDTree === "
@@ -96,6 +125,10 @@ let g:NERDTreeDirArrowExpandable = '⬏'
 let g:NERDTreeDirArrowCollapsible = '⬎'
 " Hide certain files and directories from NERDTree
 let g:NERDTreeIgnore = ['^\.DS_Store$', '^tags$', '\.git$[[dir]]', '\.idea$[[dir]]', '\.sass-cache$']
+" Color highlight
+let g:NERDTreeHighlightFolders = 1
+let g:NERDTreeLimitedSyntax = 1
+let g:NERDTreeWinSize=40
 " Binds
 nmap <C-b> :NERDTreeToggle<CR>
 nmap <leader><C-b> :NERDTreeFind<CR>
@@ -107,24 +140,6 @@ let g:airline_section_z = airline#section#create(['linenr'])
 let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'z', 'warning', 'error']]
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_extensions = ['branch', 'hunks', 'coc']
-
-" Bind fzf getting from visual selected
-function! s:getVisualSelection()
-    let [line_start, column_start] = getpos("'<")[1:2]
-    let [line_end, column_end] = getpos("'>")[1:2]
-    let lines = getline(line_start, line_end)
-
-    if len(lines) == 0
-        return ""
-    endif
-
-    let lines[-1] = lines[-1][:column_end - (&selection == "inclusive" ? 1 : 2)]
-    let lines[0] = lines[0][column_start - 1:]
-
-    return join(lines, "\n")
-endfunction
-
-vnoremap <silent><leader>f <Esc>:FZF -q <C-R>=<SID>getVisualSelection()<CR><CR>
 
 """"""""" COC VIM
 " Use tab for trigger completion with characters ahead and navigate.
@@ -152,10 +167,6 @@ if has('patch8.1.1068')
 else
   imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
-
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
@@ -192,28 +203,11 @@ augroup mygroup
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
 " Remap keys for applying codeAction to the current line.
 nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Introduce function text object
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-
-" Use <TAB> for selections ranges.
-" NOTE: Requires 'textDocument/selectionRange' support from the language server.
-" coc-tsserver, coc-python are the examples of servers that support it.
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
+nmap <leader><C-i> :CocCommand eslint.executeAutofix<cr>
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
@@ -232,20 +226,8 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " Mappings using CoCList:
 " Show all diagnostics.
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions.
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
 " Show commands.
 nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document.
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols.
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list.
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " ############### Denite configuration
 " From https://github.com/ctaylo21/jarvis/blob/master/config/nvim/init.vim
@@ -254,7 +236,7 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 "   <leader>t - Browse list of files in current directory
 "   <leader>g - Search current directory for occurences of given term and close window if no results
 "   <leader>j - Search current directory for occurences of word under cursor
-nmap ; :Denite buffer<CR>
+nmap gb :Denite buffer<CR>
 nmap <leader>t :DeniteProjectDir file/rec<CR>
 nnoremap <leader>g :<C-u>Denite grep:. -no-empty<CR>
 nnoremap <leader>j :<C-u>DeniteCursorWord grep:.<CR>

@@ -1,42 +1,41 @@
 call plug#begin()
+" Themes and fashion
 Plug 'morhetz/gruvbox'
-" Plug 'mhartington/oceanic-next'
-Plug 'sonph/onehalf', {'rtp': 'vim/'}
-Plug 'ryanoasis/vim-devicons'
-Plug 'preservim/nerdtree'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'easymotion/vim-easymotion'
 Plug 'vim-airline/vim-airline'
-Plug 'mhinz/vim-signify'
-Plug 'tpope/vim-fugitive'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'sheerun/vim-polyglot'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'kaicataldo/material.vim'
+Plug 'mhartington/oceanic-next'
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
+" Nerdtree
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'ryanoasis/vim-devicons'
+" Motion and cursors
+Plug 'mbbill/undotree'
 Plug 'dyng/ctrlsf.vim'
-Plug 'dense-analysis/ale'
-Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-surround'
+Plug 'easymotion/vim-easymotion'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+" Lint and code styling
 Plug 'mattn/emmet-vim'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'dense-analysis/ale'
 Plug 'alvan/vim-closetag'
-" Plug 'ternjs/tern_for_vim', { 'do' : 'npm install' }
+Plug 'sheerun/vim-polyglot'
+Plug 'jiangmiao/auto-pairs'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"" Denite
-if has('nvim')
-  Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/denite.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-"" end Denite
 call plug#end()
 
 " Theme config
 if (has("termguicolors"))
  set termguicolors
 endif
+let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
 syntax enable
 colorscheme gruvbox
 let g:airline_theme='onehalfdark'
@@ -72,37 +71,60 @@ set splitright
 set noshowmode
 set undodir=~/.config/nvim/undodir
 set undofile
+set incsearch
+set guitablabel=\[%N\]\ %t\ %M 
 
+" Binds "
 let mapleader="\<space>"
-" configuration file
+" Config files "
 nnoremap <leader>oc :vsplit ~/.config/nvim/init.vim<cr>
 nnoremap <leader>cs :source ~/.config/nvim/init.vim<cr>
 nnoremap <leader>pi :PlugInstall<cr>
-" Scroll
+" Paste / Copy "
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+nnoremap <leader>y "+y
+" Scroll "
 nnoremap <C-j> 3<C-e>
 nnoremap <C-k> 3<C-y>
-" Break line
+" Break line "
 inoremap <C-j> <Esc>o
 inoremap <C-k> <Esc>O
-" Move line with alt key
+" Move line with alt key "
 nnoremap <M-j> ddp
 nnoremap <M-k> ddkP
 vnoremap <M-j> :m '>+1<CR>gv=gv
 vnoremap <M-k> :m '<-2<CR>gv=gv
-" Bind esc key
+" Bind esc key "
 inoremap jk <Esc>
 inoremap kj <Esc>
-" Bind save
+" Bind save "
 noremap <C-s> :w<cr>
 inoremap <C-s> <Esc>:w<cr>a
-" Fzf
+" Fzf "
 nnoremap <C-p> :GFiles<cr>
+nnoremap <leader><CR> :Buffers<cr>
+" Switch tabs with Ctrl left and right
+nnoremap <C-right> :tabnext<CR>
+nnoremap <C-left> :tabprevious<CR>
+nnoremap <C-up> :tabnew<CR>
+nnoremap <C-down> :tabclose<CR>
+inoremap <C-right> <Esc>:tabnext<CR>
+inoremap <C-left> <Esc>:tabprevious<CR>
+" Switch buffers with Alt left and right
+nnoremap <M-Left> :bprev<CR>
+nnoremap <M-Right> :bnext<CR>
+nnoremap <M-Down> :bdelete<CR>
+inoremap <M-Left> :bprev<CR>
+inoremap <M-Right> :bnext<CR>
+
+" CtrlSF "
 nnoremap <C-f> :CtrlSF<space>
-" Prettier
+" Prettier "
 nmap <leader>pp <Plug>(Prettier)
-" Bind emmet
+" Bind emmet "
 let g:user_emmet_leader_key='ç'
-" Configure folding
+" Configure folding "
 " zc - Close the fold
 " zM - Close all folds
 " zo - Open fold
@@ -113,35 +135,46 @@ let g:user_emmet_leader_key='ç'
 " let javaScript_fold=1
 " set foldlevelstart=99
 map <C-_> :nohl<cr>
+nnoremap n nzz
+nnoremap N Nzz
+" Undotree "
+nnoremap <leader>u :UndotreeToggle<cr>
 
-" Nerdtree
+" Nerdtree "
 " === NERDTree === "
 " Show hidden files/directories
 let g:NERDTreeShowHidden = 1
 " Remove bookmarks and help text from NERDTree
 let g:NERDTreeMinimalUI = 1
 " Custom icons for expandable/expanded directories
-let g:NERDTreeDirArrowExpandable = '⬏'
-let g:NERDTreeDirArrowCollapsible = '⬎'
+" let g:NERDTreeDirArrowExpandable = '⬏'
+" let g:NERDTreeDirArrowCollapsible = '⬎'
 " Hide certain files and directories from NERDTree
 let g:NERDTreeIgnore = ['^\.DS_Store$', '^tags$', '\.git$[[dir]]', '\.idea$[[dir]]', '\.sass-cache$']
 " Color highlight
 let g:NERDTreeHighlightFolders = 1
 let g:NERDTreeLimitedSyntax = 1
-let g:NERDTreeWinSize=40
+let g:NERDTreeWinSize=60
 " Binds
 nmap <C-b> :NERDTreeToggle<CR>
 nmap <leader><C-b> :NERDTreeFind<CR>
 " Automaticaly close nvim if NERDTree is only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" === AirLine ===
+" === AirLine === "
 let g:airline_section_z = airline#section#create(['linenr'])
 let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'z', 'warning', 'error']]
+let g:airline#extensions#default#section_truncate_width = {
+      \ 'c': 30,
+      \ }
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_extensions = ['branch', 'hunks', 'coc']
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline#extensions#tabline#show_tab_count = 0
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#tabline#formatter = 'short_path'
+let g:airline_extensions = ['branch', 'hunks', 'coc', 'tabline']
 
-""""""""" COC VIM
+""""""""" COC VIM "
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
@@ -173,6 +206,9 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+" Split and tab variations.
+nmap <silent> <leader>gd :call CocAction('jumpDefinition', 'vsplit')<cr>
+nmap <silent> <leader>tgd :call CocAction('jumpDefinition', 'tabe')<cr>
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -222,80 +258,4 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" Mappings using CoCList:
-" Show all diagnostics.
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Show commands.
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-
-" ############### Denite configuration
-" From https://github.com/ctaylo21/jarvis/blob/master/config/nvim/init.vim
-" === Denite shorcuts === "
-"   ;         - Browser currently open buffers
-"   <leader>t - Browse list of files in current directory
-"   <leader>g - Search current directory for occurences of given term and close window if no results
-"   <leader>j - Search current directory for occurences of word under cursor
-nmap gb :Denite buffer<CR>
-nmap <leader>t :DeniteProjectDir file/rec<CR>
-nnoremap <leader>g :<C-u>Denite grep:. -no-empty<CR>
-nnoremap <leader>j :<C-u>DeniteCursorWord grep:.<CR>
-
-" Define mappings while in 'filter' mode
-"   <C-o>         - Switch to normal mode inside of search results
-"   <Esc>         - Exit denite window in any mode
-"   <CR>          - Open currently selected file in any mode
-"   <C-t>         - Open currently selected file in a new tab
-"   <C-v>         - Open currently selected file a vertical split
-"   <C-h>         - Open currently selected file in a horizontal split
-autocmd FileType denite-filter call s:denite_filter_my_settings()
-function! s:denite_filter_my_settings() abort
-  imap <silent><buffer> <C-o>
-  \ <Plug>(denite_filter_quit)
-  inoremap <silent><buffer><expr> <Esc>
-  \ denite#do_map('quit')
-  nnoremap <silent><buffer><expr> <Esc>
-  \ denite#do_map('quit')
-  inoremap <silent><buffer><expr> <CR>
-  \ denite#do_map('do_action')
-  inoremap <silent><buffer><expr> <C-t>
-  \ denite#do_map('do_action', 'tabopen')
-  inoremap <silent><buffer><expr> <C-v>
-  \ denite#do_map('do_action', 'vsplit')
-  inoremap <silent><buffer><expr> <C-h>
-  \ denite#do_map('do_action', 'split')
-endfunction
-
-" Define mappings while in denite window
-"   <CR>        - Opens currently selected file
-"   q or <Esc>  - Quit Denite window
-"   d           - Delete currenly selected file
-"   p           - Preview currently selected file
-"   <C-o> or i  - Switch to insert mode inside of filter prompt
-"   <C-t>       - Open currently selected file in a new tab
-"   <C-v>       - Open currently selected file a vertical split
-"   <C-h>       - Open currently selected file in a horizontal split
-autocmd FileType denite call s:denite_my_settings()
-function! s:denite_my_settings() abort
-  nnoremap <silent><buffer><expr> <CR>
-  \ denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> q
-  \ denite#do_map('quit')
-  nnoremap <silent><buffer><expr> <Esc>
-  \ denite#do_map('quit')
-  nnoremap <silent><buffer><expr> d
-  \ denite#do_map('do_action', 'delete')
-  nnoremap <silent><buffer><expr> p
-  \ denite#do_map('do_action', 'preview')
-  nnoremap <silent><buffer><expr> i
-  \ denite#do_map('open_filter_buffer')
-  nnoremap <silent><buffer><expr> <C-o>
-  \ denite#do_map('open_filter_buffer')
-  nnoremap <silent><buffer><expr> <C-t>
-  \ denite#do_map('do_action', 'tabopen')
-  nnoremap <silent><buffer><expr> <C-v>
-  \ denite#do_map('do_action', 'vsplit')
-  nnoremap <silent><buffer><expr> <C-h>
-  \ denite#do_map('do_action', 'split')
-endfunction
 

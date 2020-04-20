@@ -12,7 +12,6 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 " Motion and cursors
 Plug 'mbbill/undotree'
-Plug 'dyng/ctrlsf.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
@@ -87,6 +86,8 @@ nnoremap <leader>y "+y
 " Scroll "
 nnoremap <C-j> 3<C-e>
 nnoremap <C-k> 3<C-y>
+vnoremap <C-j> 3<C-e>
+vnoremap <C-k> 3<C-y>
 " Break line "
 inoremap <C-j> <Esc>o
 inoremap <C-k> <Esc>O
@@ -102,6 +103,7 @@ inoremap kj <Esc>
 noremap <C-s> :w<cr>
 inoremap <C-s> <Esc>:w<cr>a
 " Fzf "
+let g:fzf_buffers_jump = 1
 nnoremap <C-p> :GFiles<cr>
 nnoremap <leader><CR> :Buffers<cr>
 " Switch tabs with Ctrl left and right
@@ -114,12 +116,12 @@ inoremap <C-left> <Esc>:tabprevious<CR>
 " Switch buffers with Alt left and right
 nnoremap <M-Left> :bprev<CR>
 nnoremap <M-Right> :bnext<CR>
-nnoremap <M-Down> :bdelete<CR>
+nnoremap <M-Down> :b#<bar>bd#<CR>
 inoremap <M-Left> :bprev<CR>
 inoremap <M-Right> :bnext<CR>
 
-" CtrlSF "
-nnoremap <C-f> :CtrlSF<space>
+" CtrlSF replacement (Ag from FZF) "
+nnoremap <C-f> :Ag<cr>
 " Prettier "
 nmap <leader>pp <Plug>(Prettier)
 " Bind emmet "

@@ -1,15 +1,26 @@
 call plug#begin()
 " Themes and fashion
 Plug 'morhetz/gruvbox'
-Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline'
+Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
 Plug 'kaicataldo/material.vim'
 Plug 'mhartington/oceanic-next'
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
+Plug 'dracula/vim',{'as':'dracula'}
+Plug 'rakr/vim-one'
+Plug 'ayu-theme/ayu-vim'
+Plug 'jacoborus/tender.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'franbach/miramare'
+Plug 'srcery-colors/srcery-vim'
+Plug 'luochen1990/rainbow'
 " Nerdtree
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
+Plug 'unkiwii/vim-nerdtree-sync'
 " Motion and cursors
 Plug 'mbbill/undotree'
 Plug 'junegunn/fzf.vim'
@@ -17,6 +28,8 @@ Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'dyng/ctrlsf.vim'
+"Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -25,9 +38,12 @@ Plug 'mattn/emmet-vim'
 Plug 'dense-analysis/ale'
 Plug 'alvan/vim-closetag'
 Plug 'sheerun/vim-polyglot'
-Plug 'jiangmiao/auto-pairs'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+" Vimwiki
+"Plug 'vimwiki/vimwiki'
 call plug#end()
 
 " Theme config
@@ -36,10 +52,17 @@ if (has("termguicolors"))
 endif
 let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
 syntax enable
-colorscheme gruvbox
-let g:airline_theme='onehalfdark'
-let g:gruvbox_contrast_dark = 'hard'
+"let ayucolor="dark"
+" let g:airline_theme='ayu'
+let g:one_allow_italics = 1
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_contrast_light='hard'
+let g:miramare_enable_italic = 1
+let g:miramare_disable_italic_comment = 1
+let g:srcery_italic = 1
 set background=dark
+colorscheme gruvbox
+" colorscheme srcery
 
 " Sets
 set encoding=UTF-8
@@ -52,6 +75,7 @@ set shortmess+=c
 set signcolumn=yes
 set number
 set relativenumber
+set numberwidth=8
 set mouse=a
 set inccommand=split
 set scrolloff=5
@@ -72,6 +96,8 @@ set undodir=~/.config/nvim/undodir
 set undofile
 set incsearch
 set guitablabel=\[%N\]\ %t\ %M 
+set colorcolumn=80
+highlight ColorColumn ctermbg=0 guibg=grey
 
 " Binds "
 let mapleader="\<space>"
@@ -102,10 +128,13 @@ inoremap kj <Esc>
 " Bind save "
 noremap <C-s> :w<cr>
 inoremap <C-s> <Esc>:w<cr>a
+" Close file
+nnoremap <C-x> :q<cr>
 " Fzf "
 let g:fzf_buffers_jump = 1
 nnoremap <C-p> :GFiles<cr>
 nnoremap <leader><CR> :Buffers<cr>
+nnoremap <leader><leader><CR> :Buffers!<cr>
 " Switch tabs with Ctrl left and right
 nnoremap <C-right> :tabnext<CR>
 nnoremap <C-left> :tabprevious<CR>
@@ -116,12 +145,26 @@ inoremap <C-left> <Esc>:tabprevious<CR>
 " Switch buffers with Alt left and right
 nnoremap <M-Left> :bprev<CR>
 nnoremap <M-Right> :bnext<CR>
-nnoremap <M-Down> :b#<bar>bd#<CR>
+nnoremap <M-Down> :bp<bar>sp<bar>bn<bar>bd<CR>
 inoremap <M-Left> :bprev<CR>
 inoremap <M-Right> :bnext<CR>
+" Esc in terminal mode
+tnoremap <leader><Esc> <C-\><C-n>
+" Personal wiki
+nnoremap <leader>ww :vsplit ~/arthur/wiki/index.md<cr>
+nnoremap <leader>wt :tabnew ~/arthur/wiki/index.md<cr>
+" GIT
+nnoremap <leader><leader>g :G<CR>
 
 " CtrlSF replacement (Ag from FZF) "
-nnoremap <C-f> :Ag<cr>
+"nnoremap <C-f> :Ag<cr>
+nmap     <C-F> <Plug>CtrlSFPrompt
+vmap     <C-F> <Plug>CtrlSFVwordExec
+let g:ctrlsf_auto_focus = {
+    \ "at": "start"
+    \ }
+let g:ctrlsf_auto_preview = 1
+ 
 " Prettier "
 nmap <leader>pp <Plug>(Prettier)
 " Bind emmet "
@@ -136,7 +179,7 @@ let g:user_emmet_leader_key='ç'
 " set foldcolumn=1
 " let javaScript_fold=1
 " set foldlevelstart=99
-map <C-_> :nohl<cr>
+map <silent><C-_> :nohl<cr>
 nnoremap n nzz
 nnoremap N Nzz
 " Undotree "
@@ -148,6 +191,7 @@ nnoremap <leader>u :UndotreeToggle<cr>
 let g:NERDTreeShowHidden = 1
 " Remove bookmarks and help text from NERDTree
 let g:NERDTreeMinimalUI = 1
+let g:NERDTreeWinPos = "right"
 " Custom icons for expandable/expanded directories
 " let g:NERDTreeDirArrowExpandable = '⬏'
 " let g:NERDTreeDirArrowCollapsible = '⬎'
@@ -156,7 +200,9 @@ let g:NERDTreeIgnore = ['^\.DS_Store$', '^tags$', '\.git$[[dir]]', '\.idea$[[dir
 " Color highlight
 let g:NERDTreeHighlightFolders = 1
 let g:NERDTreeLimitedSyntax = 1
-let g:NERDTreeWinSize=60
+let g:NERDTreeWinSize=40
+let g:NERDTreeHighlightCursorline = 1
+let g:nerdtree_sync_cursorline = 1
 " Binds
 nmap <C-b> :NERDTreeToggle<CR>
 nmap <leader><C-b> :NERDTreeFind<CR>
@@ -164,17 +210,60 @@ nmap <leader><C-b> :NERDTreeFind<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " === AirLine === "
-let g:airline_section_z = airline#section#create(['linenr'])
-let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'z', 'warning', 'error']]
-let g:airline#extensions#default#section_truncate_width = {
-      \ 'c': 30,
-      \ }
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_close_button = 0
-let g:airline#extensions#tabline#show_tab_count = 0
-let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#tabline#formatter = 'short_path'
-let g:airline_extensions = ['branch', 'hunks', 'coc', 'tabline']
+" let g:airline_section_z = airline#section#create(['linenr'])
+" let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'z', 'warning', 'error']]
+" let g:airline#extensions#default#section_truncate_width = {
+"       \ 'c': 30,
+"       \ }
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#show_close_button = 0
+" let g:airline#extensions#tabline#show_tab_count = 0
+" let g:airline#extensions#tabline#show_tab_nr = 0
+" let g:airline#extensions#tabline#formatter = 'short_path'
+" let g:airline_extensions = ['branch', 'hunks', 'coc', 'tabline']
+
+" === Lightline === "
+let g:lightline = {
+  \   'colorscheme': 'solarized',
+  \   'active': {
+  \     'left':[ [ 'mode', 'paste' ],
+  \              [ 'gitbranch', 'readonly', 'bufferinfo', 'modified' ]
+  \     ],
+  \     'right': [ ['lineinfo'],
+  \                ['percent']]
+  \   },
+  \   'inactive': {
+  \     'left':[ [],
+  \              [ 'bufferinfo', 'modified' ]
+  \     ],
+  \   },
+  \   'tabline': {
+  \     'left': [ ['buffers'] ],
+  \     'right': [ ['close'] ]
+  \   },
+  \   'component_expand': {
+  \     'buffers': 'lightline#bufferline#buffers'
+  \   },
+  \   'component_type': {
+  \     'buffers': 'tabsel'
+  \   },
+	\   'component': {
+	\     'bufferinfo': '%f %m',
+	\     'lineinfo': ' %3l:%-2v',
+	\   },
+  \   'component_function': {
+  \     'gitbranch': 'fugitive#head',
+  \   }
+  \ }
+let g:lightline.separator = {
+	\   'left': '', 'right': ''
+  \}
+let g:lightline.subseparator = {
+	\   'left': '', 'right': '' 
+  \}
+set showtabline=2
+set guioptions-=e
+let g:lightline#bufferline#shorten_path = 0
 
 """"""""" COC VIM "
 " Use tab for trigger completion with characters ahead and navigate.
@@ -261,3 +350,7 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
+" vim-pandoc-syntax
+augroup pandoc_syntax
+    au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+augroup END

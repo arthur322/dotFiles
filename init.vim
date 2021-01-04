@@ -2,8 +2,10 @@ call plug#begin()
 " Themes and fashion
 Plug 'morhetz/gruvbox'
 " Plug 'vim-airline/vim-airline'
+" Plug 'rainglow/vim'
+" Plug 'mengelbrecht/lightline-bufferline'
 Plug 'itchyny/lightline.vim'
-Plug 'mengelbrecht/lightline-bufferline'
+Plug 'joshdick/onedark.vim'
 Plug 'kaicataldo/material.vim'
 Plug 'mhartington/oceanic-next'
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
@@ -15,12 +17,15 @@ Plug 'junegunn/goyo.vim'
 Plug 'franbach/miramare'
 Plug 'srcery-colors/srcery-vim'
 Plug 'luochen1990/rainbow'
-" Nerdtree
-Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'NLKNguyen/papercolor-theme'
 Plug 'ryanoasis/vim-devicons'
-Plug 'unkiwii/vim-nerdtree-sync'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+Plug 'sainnhe/sonokai'
+" Nerdtree
+" Plug 'preservim/nerdtree'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Plug 'unkiwii/vim-nerdtree-sync'
 " Motion and cursors
 Plug 'mbbill/undotree'
 Plug 'junegunn/fzf.vim'
@@ -34,6 +39,7 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 " Lint and code styling
+Plug 'jiangmiao/auto-pairs'
 Plug 'mattn/emmet-vim'
 Plug 'dense-analysis/ale'
 Plug 'alvan/vim-closetag'
@@ -42,6 +48,11 @@ Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'tpope/vim-commentary'
+Plug 'bagrat/vim-buffet'
+
 " Vimwiki
 "Plug 'vimwiki/vimwiki'
 call plug#end()
@@ -53,18 +64,33 @@ endif
 let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
 syntax enable
 "let ayucolor="dark"
-" let g:airline_theme='ayu'
 let g:one_allow_italics = 1
 let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_contrast_light='hard'
 let g:miramare_enable_italic = 1
 let g:miramare_disable_italic_comment = 1
-let g:srcery_italic = 1
+let g:srcery_italic = 0
+let g:sonokai_style = 'andromeda'
+let g:sonokai_enable_italic = 1
+colorscheme sonokai
 set background=dark
-colorscheme gruvbox
-" colorscheme srcery
+autocmd BufNewFile,BufRead *.jsonc set syntax=json
+" set filetypes as typescriptreact
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
+
+" treesitter
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { "c", "rust", "tsx" },  -- list of language that will be disabled
+  },
+}
+EOF
 
 " Sets
+set linespace=4
 set encoding=UTF-8
 set hidden
 set nobackup
@@ -78,7 +104,7 @@ set relativenumber
 set numberwidth=8
 set mouse=a
 set inccommand=split
-set scrolloff=5
+set scrolloff=10
 set ignorecase
 set smartcase
 set nowrap
@@ -98,6 +124,7 @@ set incsearch
 set guitablabel=\[%N\]\ %t\ %M 
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=grey
+set cursorline
 
 " Binds "
 let mapleader="\<space>"
@@ -109,6 +136,9 @@ nnoremap <leader>pi :PlugInstall<cr>
 nnoremap <leader>p "+p
 nnoremap <leader>P "+P
 nnoremap <leader>y "+y
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
+vnoremap <leader>y "+y
 " Scroll "
 nnoremap <C-j> 3<C-e>
 nnoremap <C-k> 3<C-y>
@@ -133,8 +163,8 @@ nnoremap <C-x> :q<cr>
 " Fzf "
 let g:fzf_buffers_jump = 1
 nnoremap <C-p> :GFiles<cr>
-nnoremap <leader><CR> :Buffers<cr>
-nnoremap <leader><leader><CR> :Buffers!<cr>
+nnoremap <leader><leader><CR> :Buffers<cr>
+nnoremap <leader><CR> :Buffers!<cr>
 " Switch tabs with Ctrl left and right
 nnoremap <C-right> :tabnext<CR>
 nnoremap <C-left> :tabprevious<CR>
@@ -145,9 +175,18 @@ inoremap <C-left> <Esc>:tabprevious<CR>
 " Switch buffers with Alt left and right
 nnoremap <M-Left> :bprev<CR>
 nnoremap <M-Right> :bnext<CR>
-nnoremap <M-Down> :bp<bar>sp<bar>bn<bar>bd<CR>
+nnoremap <M-Down> :Bw<CR>
 inoremap <M-Left> :bprev<CR>
 inoremap <M-Right> :bnext<CR>
+" vim-buffet recommendations
+noremap <Tab> :bn<CR>
+noremap <S-Tab> :bp<CR>
+noremap <Leader><Tab> :Bw<CR>
+noremap <Leader><S-Tab> :Bw!<CR>
+noremap <C-t> :tabnew split<CR>
+" Same but with the home keys
+nnoremap <M-h> :bprev<CR>
+nnoremap <M-l> :bnext<CR>
 " Esc in terminal mode
 tnoremap <leader><Esc> <C-\><C-n>
 " Personal wiki
@@ -166,6 +205,7 @@ let g:ctrlsf_auto_focus = {
 let g:ctrlsf_auto_preview = 1
  
 " Prettier "
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 nmap <leader>pp <Plug>(Prettier)
 " Bind emmet "
 let g:user_emmet_leader_key='ç'
@@ -185,29 +225,83 @@ nnoremap N Nzz
 " Undotree "
 nnoremap <leader>u :UndotreeToggle<cr>
 
-" Nerdtree "
-" === NERDTree === "
-" Show hidden files/directories
-let g:NERDTreeShowHidden = 1
-" Remove bookmarks and help text from NERDTree
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeWinPos = "right"
-" Custom icons for expandable/expanded directories
-" let g:NERDTreeDirArrowExpandable = '⬏'
-" let g:NERDTreeDirArrowCollapsible = '⬎'
-" Hide certain files and directories from NERDTree
-let g:NERDTreeIgnore = ['^\.DS_Store$', '^tags$', '\.git$[[dir]]', '\.idea$[[dir]]', '\.sass-cache$']
-" Color highlight
-let g:NERDTreeHighlightFolders = 1
-let g:NERDTreeLimitedSyntax = 1
-let g:NERDTreeWinSize=40
-let g:NERDTreeHighlightCursorline = 1
-let g:nerdtree_sync_cursorline = 1
-" Binds
-nmap <C-b> :NERDTreeToggle<CR>
-nmap <leader><C-b> :NERDTreeFind<CR>
-" Automaticaly close nvim if NERDTree is only thing left open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" " Nerdtree "
+" " === NERDTree === "
+" " Show line
+" let NERDTreeShowLineNumbers=1
+" autocmd FileType nerdtree setlocal relativenumber
+" " Show hidden files/directories
+" let g:NERDTreeShowHidden = 1
+" " Remove bookmarks and help text from NERDTree
+" let g:NERDTreeMinimalUI = 1
+" let g:NERDTreeWinPos = "left"
+" " Custom icons for expandable/expanded directories
+" " let g:NERDTreeDirArrowExpandable = '⬏'
+" " let g:NERDTreeDirArrowCollapsible = '⬎'
+" " Hide certain files and directories from NERDTree
+" let g:NERDTreeIgnore = ['^\.DS_Store$', '^tags$', '\.git$[[dir]]', '\.idea$[[dir]]', '\.sass-cache$', '^node_modules$']
+" " Color highlight
+" let g:NERDTreeHighlightFolders = 1
+" let g:NERDTreeLimitedSyntax = 1
+" let g:NERDTreeWinSize=40
+" let g:NERDTreeHighlightCursorline = 1
+" let g:nerdtree_sync_cursorline = 1
+
+" " Binds
+" nmap <C-b> :NERDTreeToggle<CR>
+" " nmap <leader>e :NERDTreeToggle<CR>
+" nmap <space>e :CocCommand explorer<CR>
+" nmap <leader><C-b> :NERDTreeFind<CR>
+" " Automaticaly close nvim if NERDTree is only thing left open
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" === Coc-explorer === "
+let g:coc_explorer_global_presets = {
+\   'tab': {
+\     'position': 'tab',
+\     'quit-on-open': v:true,
+\   },
+\   'floating': {
+\     'position': 'floating',
+\     'floating-width': 100,
+\     'open-action-strategy': 'sourceWindow',
+\   },
+\   'floatingTop': {
+\     'position': 'floating',
+\     'floating-position': 'center-top',
+\     'open-action-strategy': 'sourceWindow',
+\   },
+\   'floatingLeftside': {
+\     'position': 'floating',
+\     'floating-position': 'left-center',
+\     'floating-width': 50,
+\     'open-action-strategy': 'sourceWindow',
+\   },
+\   'floatingRightside': {
+\     'position': 'floating',
+\     'floating-position': 'right-center',
+\     'floating-width': 50,
+\     'open-action-strategy': 'sourceWindow',
+\   },
+\   'simplify': {
+\     'file-child-template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]'
+\   }
+\ }
+nmap <space>e :CocCommand explorer<CR>
+nmap <space><space>f :CocCommand explorer --preset floating<CR>
+autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+
+" === vim-buffet === "
+let g:buffet_always_show_tabline = 1
+let g:buffet_powerline_separators = 1
+let g:buffet_tab_icon = "\uf00a"
+let g:buffet_left_trunc_icon = "\uf0a8"
+let g:buffet_right_trunc_icon = "\uf0a9"
+
+function! g:BuffetSetCustomColors()
+  hi! BuffetCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#61AFEF guifg=#000000
+  hi! BuffetActiveBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#61AFEF guifg=#FFFFFF
+endfunction
 
 " === AirLine === "
 " let g:airline_section_z = airline#section#create(['linenr'])
@@ -224,7 +318,8 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " === Lightline === "
 let g:lightline = {
-  \   'colorscheme': 'solarized',
+  \   'enable': { 'tabline': 0 },
+  \   'colorscheme': 'sonokai',
   \   'active': {
   \     'left':[ [ 'mode', 'paste' ],
   \              [ 'gitbranch', 'readonly', 'bufferinfo', 'modified' ]
@@ -236,10 +331,6 @@ let g:lightline = {
   \     'left':[ [],
   \              [ 'bufferinfo', 'modified' ]
   \     ],
-  \   },
-  \   'tabline': {
-  \     'left': [ ['buffers'] ],
-  \     'right': [ ['close'] ]
   \   },
   \   'component_expand': {
   \     'buffers': 'lightline#bufferline#buffers'
@@ -261,9 +352,10 @@ let g:lightline.separator = {
 let g:lightline.subseparator = {
 	\   'left': '', 'right': '' 
   \}
-set showtabline=2
+" set showtabline=2
+" let g:lightline#bufferline#shorten_path = 0
 set guioptions-=e
-let g:lightline#bufferline#shorten_path = 0
+
 
 """"""""" COC VIM "
 " Use tab for trigger completion with characters ahead and navigate.
@@ -331,7 +423,7 @@ augroup mygroup
 augroup end
 
 " Remap keys for applying codeAction to the current line.
-nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <leader>ca  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
 nmap <leader><C-i> :CocCommand eslint.executeAutofix<cr>
@@ -354,3 +446,10 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 augroup pandoc_syntax
     au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
 augroup END
+
+" vim-styled-components bad highlight workaround
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+
+let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-eslint', 'coc-explorer']
+

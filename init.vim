@@ -1,95 +1,104 @@
+" Plugins
 call plug#begin()
-" Themes and fashion
+
+" Colors
 Plug 'morhetz/gruvbox'
-" Plug 'vim-airline/vim-airline'
-" Plug 'rainglow/vim'
-" Plug 'mengelbrecht/lightline-bufferline'
-Plug 'itchyny/lightline.vim'
-Plug 'joshdick/onedark.vim'
-Plug 'kaicataldo/material.vim'
-Plug 'mhartington/oceanic-next'
-Plug 'sonph/onehalf', {'rtp': 'vim/'}
-Plug 'dracula/vim',{'as':'dracula'}
-Plug 'rakr/vim-one'
-Plug 'ayu-theme/ayu-vim'
-Plug 'jacoborus/tender.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'franbach/miramare'
-Plug 'srcery-colors/srcery-vim'
-Plug 'luochen1990/rainbow'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'ryanoasis/vim-devicons'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-Plug 'sainnhe/sonokai'
-" Nerdtree
-" Plug 'preservim/nerdtree'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" Plug 'unkiwii/vim-nerdtree-sync'
-" Motion and cursors
-Plug 'mbbill/undotree'
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-surround'
-Plug 'easymotion/vim-easymotion'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'dyng/ctrlsf.vim'
-"Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-" Lint and code styling
-Plug 'jiangmiao/auto-pairs'
-Plug 'mattn/emmet-vim'
-Plug 'dense-analysis/ale'
-Plug 'alvan/vim-closetag'
-Plug 'sheerun/vim-polyglot'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'tpope/vim-commentary'
+
+" GUI
+Plug 'itchyny/lightline.vim'
+Plug 'dyng/ctrlsf.vim'
+Plug 'nvim-lua/popup.nvim' " telescope dep
+Plug 'nvim-lua/plenary.nvim' " telescope dep
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'bagrat/vim-buffet'
 
-" Vimwiki
-"Plug 'vimwiki/vimwiki'
+" Code
+Plug 'neovim/nvim-lspconfig'
+Plug 'kabouzeid/nvim-lspinstall'
+Plug 'jiangmiao/auto-pairs'
+Plug 'nvim-lua/completion-nvim'
+
 call plug#end()
 
-" Theme config
+" LSP
+lua <<EOF
+
+require'lspinstall'.setup()
+
+local nvim_lsp = require('lspconfig')
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>d', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+
+  -- Set some keybinds conditional on server capabilities
+  if client.resolved_capabilities.document_formatting then
+    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  elseif client.resolved_capabilities.document_range_formatting then
+    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+  end
+
+  -- Set autocommands conditional on server_capabilities
+  if client.resolved_capabilities.document_highlight then
+    vim.api.nvim_exec([[
+    hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
+    hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
+    hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+    augroup lsp_document_highlight
+      autocmd! * <buffer>
+      autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+      autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+    augroup END
+    ]], false)
+  end
+end
+
+EOF
+
+" Colorscheme
+let g:gruvbox_contrast_dark='hard'
 if (has("termguicolors"))
- set termguicolors
+  set termguicolors
 endif
 let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
-syntax enable
-"let ayucolor="dark"
-let g:one_allow_italics = 1
-let g:gruvbox_contrast_dark='hard'
-let g:gruvbox_contrast_light='hard'
-let g:miramare_enable_italic = 1
-let g:miramare_disable_italic_comment = 1
-let g:srcery_italic = 0
-let g:sonokai_style = 'andromeda'
-let g:sonokai_enable_italic = 1
-colorscheme sonokai
+let g:gruvbox_invert_selection='0'
+colorscheme gruvbox
 set background=dark
-autocmd BufNewFile,BufRead *.jsonc set syntax=json
-" set filetypes as typescriptreact
-autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
-" treesitter
 lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-    disable = { "c", "rust", "tsx" },  -- list of language that will be disabled
-  },
-}
+
+local servers = require'lspinstall'.installed_servers()
+for _, server in pairs(servers) do
+  require'lspconfig'[server].setup{ on_attach = on_attach }
+end
+
 EOF
 
 " Sets
+syntax enable
 set linespace=4
 set encoding=UTF-8
 set hidden
@@ -160,166 +169,29 @@ noremap <C-s> :w<cr>
 inoremap <C-s> <Esc>:w<cr>a
 " Close file
 nnoremap <C-x> :q<cr>
-" Fzf "
-let g:fzf_buffers_jump = 1
-nnoremap <C-p> :GFiles<cr>
-nnoremap <leader><leader><CR> :Buffers<cr>
-nnoremap <leader><CR> :Buffers!<cr>
-" Switch tabs with Ctrl left and right
-nnoremap <C-right> :tabnext<CR>
-nnoremap <C-left> :tabprevious<CR>
-nnoremap <C-up> :tabnew<CR>
-nnoremap <C-down> :tabclose<CR>
-inoremap <C-right> <Esc>:tabnext<CR>
-inoremap <C-left> <Esc>:tabprevious<CR>
-" Switch buffers with Alt left and right
-nnoremap <M-Left> :bprev<CR>
-nnoremap <M-Right> :bnext<CR>
-nnoremap <M-Down> :Bw<CR>
-inoremap <M-Left> :bprev<CR>
-inoremap <M-Right> :bnext<CR>
-" vim-buffet recommendations
+" Netrw
+nnoremap <leader>e :Vex<CR>
+
+" Plugin binds
+" GIT
+nnoremap <leader><leader>g :G<CR>
+" VIM-BUFFET
 noremap <Tab> :bn<CR>
 noremap <S-Tab> :bp<CR>
 noremap <Leader><Tab> :Bw<CR>
 noremap <Leader><S-Tab> :Bw!<CR>
 noremap <C-t> :tabnew split<CR>
-" Same but with the home keys
-nnoremap <M-h> :bprev<CR>
-nnoremap <M-l> :bnext<CR>
-" Esc in terminal mode
-tnoremap <leader><Esc> <C-\><C-n>
-" Personal wiki
-nnoremap <leader>ww :vsplit ~/arthur/wiki/index.md<cr>
-nnoremap <leader>wt :tabnew ~/arthur/wiki/index.md<cr>
-" GIT
-nnoremap <leader><leader>g :G<CR>
+" Telescope
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
-" CtrlSF replacement (Ag from FZF) "
-"nnoremap <C-f> :Ag<cr>
-nmap     <C-F> <Plug>CtrlSFPrompt
-vmap     <C-F> <Plug>CtrlSFVwordExec
-let g:ctrlsf_auto_focus = {
-    \ "at": "start"
-    \ }
-let g:ctrlsf_auto_preview = 1
- 
-" Prettier "
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-nmap <leader>pp <Plug>(Prettier)
-" Bind emmet "
-let g:user_emmet_leader_key='ç'
-" Configure folding "
-" zc - Close the fold
-" zM - Close all folds
-" zo - Open fold
-" zR - Open all folds
-" zj/zk - Fold navigation
-" set foldmethod=syntax
-" set foldcolumn=1
-" let javaScript_fold=1
-" set foldlevelstart=99
-map <silent><C-_> :nohl<cr>
-nnoremap n nzz
-nnoremap N Nzz
-" Undotree "
-nnoremap <leader>u :UndotreeToggle<cr>
-
-" " Nerdtree "
-" " === NERDTree === "
-" " Show line
-" let NERDTreeShowLineNumbers=1
-" autocmd FileType nerdtree setlocal relativenumber
-" " Show hidden files/directories
-" let g:NERDTreeShowHidden = 1
-" " Remove bookmarks and help text from NERDTree
-" let g:NERDTreeMinimalUI = 1
-" let g:NERDTreeWinPos = "left"
-" " Custom icons for expandable/expanded directories
-" " let g:NERDTreeDirArrowExpandable = '⬏'
-" " let g:NERDTreeDirArrowCollapsible = '⬎'
-" " Hide certain files and directories from NERDTree
-" let g:NERDTreeIgnore = ['^\.DS_Store$', '^tags$', '\.git$[[dir]]', '\.idea$[[dir]]', '\.sass-cache$', '^node_modules$']
-" " Color highlight
-" let g:NERDTreeHighlightFolders = 1
-" let g:NERDTreeLimitedSyntax = 1
-" let g:NERDTreeWinSize=40
-" let g:NERDTreeHighlightCursorline = 1
-" let g:nerdtree_sync_cursorline = 1
-
-" " Binds
-" nmap <C-b> :NERDTreeToggle<CR>
-" " nmap <leader>e :NERDTreeToggle<CR>
-" nmap <space>e :CocCommand explorer<CR>
-" nmap <leader><C-b> :NERDTreeFind<CR>
-" " Automaticaly close nvim if NERDTree is only thing left open
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" === Coc-explorer === "
-let g:coc_explorer_global_presets = {
-\   'tab': {
-\     'position': 'tab',
-\     'quit-on-open': v:true,
-\   },
-\   'floating': {
-\     'position': 'floating',
-\     'floating-width': 100,
-\     'open-action-strategy': 'sourceWindow',
-\   },
-\   'floatingTop': {
-\     'position': 'floating',
-\     'floating-position': 'center-top',
-\     'open-action-strategy': 'sourceWindow',
-\   },
-\   'floatingLeftside': {
-\     'position': 'floating',
-\     'floating-position': 'left-center',
-\     'floating-width': 50,
-\     'open-action-strategy': 'sourceWindow',
-\   },
-\   'floatingRightside': {
-\     'position': 'floating',
-\     'floating-position': 'right-center',
-\     'floating-width': 50,
-\     'open-action-strategy': 'sourceWindow',
-\   },
-\   'simplify': {
-\     'file-child-template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]'
-\   }
-\ }
-nmap <space>e :CocCommand explorer<CR>
-nmap <space><space>f :CocCommand explorer --preset floating<CR>
-autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
-
-" === vim-buffet === "
-let g:buffet_always_show_tabline = 1
-let g:buffet_powerline_separators = 1
-let g:buffet_tab_icon = "\uf00a"
-let g:buffet_left_trunc_icon = "\uf0a8"
-let g:buffet_right_trunc_icon = "\uf0a9"
-
-function! g:BuffetSetCustomColors()
-  hi! BuffetCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#61AFEF guifg=#000000
-  hi! BuffetActiveBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#61AFEF guifg=#FFFFFF
-endfunction
-
-" === AirLine === "
-" let g:airline_section_z = airline#section#create(['linenr'])
-" let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'z', 'warning', 'error']]
-" let g:airline#extensions#default#section_truncate_width = {
-"       \ 'c': 30,
-"       \ }
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#show_close_button = 0
-" let g:airline#extensions#tabline#show_tab_count = 0
-" let g:airline#extensions#tabline#show_tab_nr = 0
-" let g:airline#extensions#tabline#formatter = 'short_path'
-" let g:airline_extensions = ['branch', 'hunks', 'coc', 'tabline']
-
-" === Lightline === "
+" Plugin configs
+" LIGHTLINE
 let g:lightline = {
   \   'enable': { 'tabline': 0 },
-  \   'colorscheme': 'sonokai',
+  \   'colorscheme': 'gruvbox',
   \   'active': {
   \     'left':[ [ 'mode', 'paste' ],
   \              [ 'gitbranch', 'readonly', 'bufferinfo', 'modified' ]
@@ -338,118 +210,61 @@ let g:lightline = {
   \   'component_type': {
   \     'buffers': 'tabsel'
   \   },
-	\   'component': {
-	\     'bufferinfo': '%f %m',
-	\     'lineinfo': ' %3l:%-2v',
-	\   },
+  \   'component': {
+  \     'bufferinfo': '%f %m',
+  \     'lineinfo': '%3l:%-2v',
+  \   },
   \   'component_function': {
   \     'gitbranch': 'fugitive#head',
   \   }
   \ }
 let g:lightline.separator = {
-	\   'left': '', 'right': ''
+  \   'left': '', 'right': ''
   \}
 let g:lightline.subseparator = {
-	\   'left': '', 'right': '' 
+  \   'left': '', 'right': '' 
   \}
-" set showtabline=2
+set showtabline=2
 " let g:lightline#bufferline#shorten_path = 0
 set guioptions-=e
 
-
-""""""""" COC VIM "
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+" VIM-BUFFET "
+let g:buffet_always_show_tabline = 1
+let g:buffet_powerline_separators = 1
+let g:buffet_tab_icon = "\uf00a"
+let g:buffet_left_trunc_icon = "\uf0a8"
+let g:buffet_right_trunc_icon = "\uf0a9"
+function! g:BuffetSetCustomColors()
+  hi! BuffetCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#61AFEF guifg=#000000
+  hi! BuffetActiveBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#61AFEF guifg=#FFFFFF
 endfunction
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" CtrlSF
+nmap     <C-F> <Plug>CtrlSFPrompt
+vmap     <C-F> <Plug>CtrlSFVwordExec
+let g:ctrlsf_auto_focus = {
+      \ "at": "start"
+      \ }
+let g:ctrlsf_auto_preview = 1
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-if has('patch8.1.1068')
-  " Use `complete_info` if your (Neo)Vim version supports it.
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
+" netrw
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
 
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-" Split and tab variations.
-nmap <silent> <leader>gd :call CocAction('jumpDefinition', 'vsplit')<cr>
-nmap <silent> <leader>tgd :call CocAction('jumpDefinition', 'tabe')<cr>
+" completion-nvim in every buffer
+autocmd BufEnter * lua require'completion'.on_attach()
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+" Avoid showing message extra message when using completion
+"set shortmess+=c
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+imap <tab> <Plug>(completion_smart_tab)
+imap <s-tab> <Plug>(completion_smart_s_tab)
 
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Remap keys for applying codeAction to the current line.
-nmap <leader>ca  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
-nmap <leader><C-i> :CocCommand eslint.executeAutofix<cr>
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
-" Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Add (Neo)Vim's native statusline support.
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" vim-pandoc-syntax
-augroup pandoc_syntax
-    au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
-augroup END
-
-" vim-styled-components bad highlight workaround
-autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
-autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
-
-let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-eslint', 'coc-explorer']
 

@@ -46,3 +46,13 @@ highlight Visual cterm=NONE ctermbg=236 ctermfg=NONE guibg=Grey40
 set wildignore+=node_modules/*
 set path+=**
 
+let g:netrw_liststyle=3      " Netrw configurations
+let g:netrw_banner=0
+let g:netrw_browse_split=2
+let g:netrw_winsize=30
+let g:netrw_browse_split=4   " Where the file is open
+augroup ProjectDrawer
+  autocmd!
+  autocmd VimEnter * :Vexplore
+augroup END
+

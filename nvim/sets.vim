@@ -42,6 +42,7 @@ set colorcolumn=80    " Column 'limit' line at the 80 character
 highlight ColorColumn ctermbg=0 guibg=grey
 highlight LineNr cterm=none ctermfg=240 guifg=#2b506e guibg=#000000
 highlight Visual cterm=NONE ctermbg=236 ctermfg=NONE guibg=Grey40
+colorscheme molokai
 
 set wildignore+=node_modules/*
 set path+=**
@@ -51,8 +52,4 @@ let g:netrw_banner=0
 let g:netrw_browse_split=2
 let g:netrw_winsize=30
 let g:netrw_browse_split=4   " Where the file is open
-augroup ProjectDrawer
-  autocmd!
-  autocmd VimEnter * :Vexplore
-augroup END
 

@@ -2,7 +2,7 @@
 
 ln -sf $PWD/nvim ~/.config/nvim
 
-ln -sf $PWD/zsh/.zshrc ~/.zshrc
+ln -s $PWD/zsh/.zshrc ~/.zshrc
 
 git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
 

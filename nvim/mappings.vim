@@ -57,6 +57,3 @@ nnoremap <leader>l <C-w>l
 " Clear search highlights
 nnoremap <silent> <leader>/ :nohl<CR>
 
-" Netrw explorer
-nnoremap <leader>e :Vex<CR>
-

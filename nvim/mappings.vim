@@ -4,7 +4,7 @@
 let mapleader="\<Space>"      " Set the leader key
 
 " Config files
-nnoremap <leader>oc :vsplit ~/.config/nvim/init.vim<cr>
+nnoremap <leader>oc :vsplit ~/.config/nvim<cr>
 nnoremap <leader>cs :source ~/.config/nvim/init.vim<cr>
 nnoremap <leader>pi :PlugInstall<cr>
 
@@ -20,6 +20,9 @@ vnoremap <leader>y "+y
 :command Q q
 :command W w
 :command X x
+
+" Bind Esc to work on terminal too
+tnoremap <Esc> <C-\><C-n>
 
 " Move line with alt key "
 nnoremap <M-j> ddp
@@ -45,10 +48,10 @@ nnoremap <C-x> :q<cr>
 tnoremap <leader><Esc> <C-\><C-n>
 
 " Windows
-nnoremap <C-w>< 5<C-w><
-nnoremap <C-w>> 5<C-w>>
-nnoremap <C-w>+ 5<C-w>+
-nnoremap <C-w>- 5<C-w>-
+nnoremap <C-w>< 10<C-w>>
+nnoremap <C-w>> 10<C-w><
+nnoremap <C-w>+ 10<C-w>+
+nnoremap <C-w>- 10<C-w>-
 nnoremap <leader>h <C-w>h
 nnoremap <leader>j <C-w>j
 nnoremap <leader>k <C-w>k

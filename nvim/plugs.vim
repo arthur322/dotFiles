@@ -3,7 +3,11 @@
 
 call plug#begin()
 
+Plug 'lambdalisue/nerdfont.vim' " Glyph icons
 Plug 'lambdalisue/fern.vim' " File explorer
+Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim' " Use glyphs into explorer
+Plug 'lambdalisue/fern-hijack.vim' " Use Fern as default explorer
 Plug 'tpope/vim-fugitive' " Git integration
 Plug 'tomasr/molokai' " Theme
 

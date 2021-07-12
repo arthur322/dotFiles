@@ -18,6 +18,8 @@ Plug 'kyazdani42/nvim-web-devicons' " Telescope icons
 Plug 'tpope/vim-surround' " Surrounding mappings
 Plug 'tpope/vim-commentary' " Easy comments
 Plug 'jiangmiao/auto-pairs' " Auto closing pairs
+Plug 'hoob3rt/lualine.nvim' " Status line
+Plug 'projekt0n/github-nvim-theme' " Github theme
 
 call plug#end()
 

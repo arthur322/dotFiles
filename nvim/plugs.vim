@@ -10,9 +10,9 @@ Plug 'lambdalisue/fern-renderer-nerdfont.vim' " Use glyphs into explorer
 Plug 'lambdalisue/fern-hijack.vim' " Use Fern as default explorer
 Plug 'tpope/vim-fugitive' " Git integration
 Plug 'tomasr/molokai' " Theme
-Plug 'mhinz/vim-signify' " Git signs to file
 Plug 'nvim-lua/popup.nvim' " Telescope dep
 Plug 'nvim-lua/plenary.nvim' " Telescope dep
+Plug 'lewis6991/gitsigns.nvim' " Git signs to file
 Plug 'nvim-telescope/telescope.nvim' " Fuzzy finder
 Plug 'kyazdani42/nvim-web-devicons' " Telescope icons
 Plug 'tpope/vim-surround' " Surrounding mappings

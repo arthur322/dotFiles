@@ -53,3 +53,9 @@ let g:netrw_browse_split=2
 let g:netrw_winsize=30
 let g:netrw_browse_split=4   " Where the file is open
 
+" Highlight text on yank
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=300}
+augroup END
+

@@ -15,6 +15,8 @@ Plug 'nvim-lua/popup.nvim' " Telescope dep
 Plug 'nvim-lua/plenary.nvim' " Telescope dep
 Plug 'nvim-telescope/telescope.nvim' " Fuzzy finder
 Plug 'kyazdani42/nvim-web-devicons' " Telescope icons
+Plug 'tpope/vim-surround' " Surrounding mappings
+Plug 'tpope/vim-commentary' " Easy comments
 
 call plug#end()
 

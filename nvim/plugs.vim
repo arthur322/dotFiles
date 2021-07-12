@@ -10,6 +10,7 @@ Plug 'lambdalisue/fern-renderer-nerdfont.vim' " Use glyphs into explorer
 Plug 'lambdalisue/fern-hijack.vim' " Use Fern as default explorer
 Plug 'tpope/vim-fugitive' " Git integration
 Plug 'tomasr/molokai' " Theme
+Plug 'mhinz/vim-signify' " Git signs to file
 
 call plug#end()
 

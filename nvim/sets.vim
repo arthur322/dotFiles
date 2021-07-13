@@ -36,12 +36,14 @@ set splitright				" When open a new vsplit, create the buffer at the right side
 set noshowmode				" Hides the actual mode (i.e. "--INSERT--")
 set inccommand=split  " Shows a 'preview' when on substitution mode
 
+set updatetime=100
 set termguicolors
 set colorcolumn=80    " Column 'limit' line at the 80 character
 " Color the limit line, number line and visual mode lines
 highlight ColorColumn ctermbg=0 guibg=grey
 highlight LineNr cterm=none ctermfg=240 guifg=#2b506e guibg=#000000
 highlight Visual cterm=NONE ctermbg=236 ctermfg=NONE guibg=Grey40
+set background=dark
 " colorscheme molokai
 
 set wildignore+=node_modules/*

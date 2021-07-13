@@ -5,3 +5,5 @@ let g:fern#drawer_width = 40
 
 nnoremap <silent> <leader>e :Fern . -reveal=% -drawer<CR>
 
+" autocmd! BufEnter * :Fern . -reveal=% -drawer -stay
+

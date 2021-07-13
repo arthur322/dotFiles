@@ -45,6 +45,7 @@ highlight LineNr cterm=none ctermfg=240 guifg=#2b506e guibg=#000000
 highlight Visual cterm=NONE ctermbg=236 ctermfg=NONE guibg=Grey40
 set background=dark
 " colorscheme molokai
+colorscheme one-nvim
 
 set wildignore+=node_modules/*
 set path+=**

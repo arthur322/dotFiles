@@ -16,14 +16,18 @@ Plug 'nvim-telescope/telescope.nvim' " Fuzzy finder
 Plug 'kyazdani42/nvim-web-devicons' " Telescope icons
 Plug 'tpope/vim-surround' " Surrounding mappings
 Plug 'tpope/vim-commentary' " Easy comments
-Plug 'jiangmiao/auto-pairs' " Auto closing pairs
+Plug 'windwp/nvim-autopairs' " Auto closing pairs
 Plug 'hoob3rt/lualine.nvim' " Status line
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " Buffer code parser
 Plug 'neovim/nvim-lspconfig' " Language server client
 Plug 'kabouzeid/nvim-lspinstall' " LSP easy configurations
+Plug 'hrsh7th/nvim-compe' " Smart auto completion
+Plug 'onsails/lspkind-nvim' " Icons to auto completion
 
-Plug 'tomasr/molokai' " Theme
-Plug 'projekt0n/github-nvim-theme' " Github theme
+" Themes
+Plug 'tomasr/molokai'
+Plug 'projekt0n/github-nvim-theme'
+Plug 'Th3Whit3Wolf/one-nvim'
 
 call plug#end()
 

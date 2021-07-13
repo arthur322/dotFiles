@@ -1,5 +1,5 @@
 lua << EOF
----[[
+--[[
 
 require("github-theme").setup({
   functionStyle = "italic",

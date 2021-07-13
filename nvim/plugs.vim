@@ -28,6 +28,8 @@ Plug 'onsails/lspkind-nvim' " Icons to auto completion
 Plug 'tomasr/molokai'
 Plug 'projekt0n/github-nvim-theme'
 Plug 'Th3Whit3Wolf/one-nvim'
+Plug 'mhartington/oceanic-next'
+Plug 'bluz71/vim-nightfly-guicolors'
 
 call plug#end()
 

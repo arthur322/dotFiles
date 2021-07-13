@@ -5,7 +5,7 @@ let mapleader="\<Space>"      " Set the leader key
 
 " Config files
 nnoremap <leader>oc :vsplit ~/.config/nvim<cr>
-nnoremap <leader>cs :source ~/.config/nvim/init.vim<cr>
+nnoremap <leader>s :source ~/.config/nvim/init.vim<cr>
 nnoremap <leader>pi :PlugInstall<cr>
 
 " Paste / Copy

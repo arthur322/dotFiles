@@ -1,7 +1,7 @@
 autocmd FileType javascriptreact setlocal commentstring={/*\ %s\ */}
 autocmd FileType typescriptreact setlocal commentstring={/*\ %s\ */}
 
-xmap <leader>cc <Plug>Commentary
-nmap <leader>cc <Plug>Commentary
-omap <leader>cc <Plug>Commentary
-nmap <leader>cc <Plug>CommentaryLine
+xmap <leader>c <Plug>Commentary
+nmap <leader>c <Plug>Commentary
+omap <leader>c <Plug>Commentary
+nmap <leader>c <Plug>CommentaryLine

@@ -3,14 +3,18 @@ local function filepath()
   return '%f'
 end
 
+local function breadcrumb()
+  return vim.fn['nvim_treesitter#statusline']()
+end
+
 require('lualine').setup {
   options = {
-    theme = '16color'
+    theme = 'nightfly'
   },
   sections = {
-    lualine_a = {''},
-    lualine_b = {'branch'},
-    lualine_c = {filepath},
+    lualine_a = {'branch'},
+    lualine_b = {filepath, breadcrumb},
+    lualine_c = {''},
     lualine_x = {'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}

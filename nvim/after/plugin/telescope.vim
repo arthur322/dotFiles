@@ -11,6 +11,6 @@ EOF
 
 nnoremap <c-p> <cmd>Telescope git_files<cr>
 nnoremap <c-f> <cmd>Telescope live_grep<cr>
-nnoremap <Enter> <cmd>Telescope buffers<cr>
+nnoremap <leader><Enter> <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 

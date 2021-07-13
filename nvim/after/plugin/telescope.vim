@@ -5,6 +5,15 @@ require('telescope').setup{
       "node_modules",
       "%.lock",
     },
+  },
+  pickers = {
+    buffers = {
+      mappings = {
+        n = {
+          ["<c-d>"] = require("telescope.actions").delete_buffer,
+        }
+      }
+    }
   }
 }
 EOF

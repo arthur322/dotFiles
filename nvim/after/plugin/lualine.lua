@@ -23,7 +23,6 @@ local function lsp_diag()
   }
 
   for key, level in pairs(levels) do
-    print(vim.inspect(levels))
     local level_count = vim.lsp.diagnostic.get_count(actual_buffer, level)
     if level_count > 0 then
       table.insert(result, key .. ': ' .. level_count)

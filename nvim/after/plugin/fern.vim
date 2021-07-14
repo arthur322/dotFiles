@@ -4,5 +4,6 @@ let g:fern#renderer = "nerdfont"
 let g:fern#drawer_width = 40
 
 nnoremap <silent> <leader>e :Fern . -reveal=% -drawer<CR>
-nnoremap <silent> <leader>E :Fern . -reveal=% -drawer -stay<CR>
+nnoremap <silent> <leader>E :Fern . -reveal=%<CR>
+nnoremap <silent> <leader>re :Fern . -reveal=% -drawer -stay<CR>
 

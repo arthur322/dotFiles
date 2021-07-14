@@ -1,4 +1,3 @@
-lua << EOF
 local function filepath()
   return '%f'
 end
@@ -28,5 +27,4 @@ require('lualine').setup {
     lualine_z = {'location'}
   },
 }
-EOF
 

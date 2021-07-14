@@ -1,5 +1,3 @@
-lua << EOF
-
 require('lspkind').init({
     -- enables text annotations
     --
@@ -40,4 +38,3 @@ require('lspkind').init({
     },
 })
 
-EOF

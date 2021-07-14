@@ -1,16 +1,28 @@
 lua << EOF
+local actions = require("telescope.actions")
+
 require('telescope').setup{
   defaults = {
     file_ignore_patterns = {
       "node_modules",
       "%.lock",
     },
+    mappings = {
+      n = {
+        ["<Tab>"] = actions.move_selection_previous,
+        ["<S-Tab>"] = actions.move_selection_next
+      },
+      i = {
+        ["<Tab>"] = actions.move_selection_previous,
+        ["<S-Tab>"] = actions.move_selection_next
+      },
+    }
   },
   pickers = {
     buffers = {
       mappings = {
         n = {
-          ["<c-d>"] = require("telescope.actions").delete_buffer,
+          ["<c-d>"] = actions.delete_buffer,
         }
       }
     }

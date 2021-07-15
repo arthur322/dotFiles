@@ -26,7 +26,7 @@ require('lspkind').init({
       Property = '',
       Unit = '',
       Value = '',
-      Enum = '了',
+      Enum = '',
       Keyword = '',
       Snippet = '﬌',
       Color = '',
@@ -34,7 +34,8 @@ require('lspkind').init({
       Folder = '',
       EnumMember = '',
       Constant = '',
-      Struct = ''
+      Struct = '',
+      Field = '',
     },
 })
 

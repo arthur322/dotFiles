@@ -47,7 +47,7 @@ highlight Visual cterm=NONE ctermbg=236 ctermfg=NONE guibg=Grey40
 " colorscheme molokai
 " colorscheme one-nvim
 " colorscheme OceanicNext
-colorscheme nightfly
+" colorscheme nightfly
 
 set wildignore+=node_modules/*
 set path+=**

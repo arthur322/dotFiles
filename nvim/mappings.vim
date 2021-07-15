@@ -57,6 +57,9 @@ nnoremap <leader>j <C-w>j
 nnoremap <leader>k <C-w>k
 nnoremap <leader>l <C-w>l
 
+" Alt-tab like buffer switch
+nnoremap <leader><Tab> <C-^>
+
 " Clear search highlights
 nnoremap <silent> <leader>/ :nohl<CR>
 

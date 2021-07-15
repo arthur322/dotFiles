@@ -1,11 +1,7 @@
 local function filepath()
-  local dirty = ''
-
-  if vim.bo.modified then
-    dirty = ' *'
-  end
-
-  return '%f' .. dirty
+  -- %f for file path
+  -- %m for if file is modified
+  return '%f%m'
 end
 
 local function breadcrumb()
@@ -14,7 +10,7 @@ end
 
 local function lsp_diag()
   local result = {}
-  local actual_buffer = vim.api.nvim_get_current_buf()
+    local actual_buffer = vim.api.nvim_get_current_buf()
   local levels = {
     E = 'Error',
     W = 'Warning',

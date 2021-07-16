@@ -10,7 +10,7 @@ end
 
 local function lsp_diag()
   local result = {}
-    local actual_buffer = vim.api.nvim_get_current_buf()
+  local actual_buffer = vim.api.nvim_get_current_buf()
   local levels = {
     E = 'Error',
     W = 'Warning',

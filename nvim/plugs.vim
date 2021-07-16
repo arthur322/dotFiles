@@ -4,10 +4,6 @@
 call plug#begin()
 
 Plug 'lambdalisue/nerdfont.vim' " Glyph icons
-Plug 'lambdalisue/fern.vim' " File explorer
-Plug 'lambdalisue/fern-git-status.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim' " Use glyphs into explorer
-Plug 'lambdalisue/fern-hijack.vim' " Use Fern as default explorer
 Plug 'tpope/vim-fugitive' " Git integration
 Plug 'nvim-lua/popup.nvim' " Telescope dep
 Plug 'nvim-lua/plenary.nvim' " Telescope dep
@@ -23,6 +19,7 @@ Plug 'neovim/nvim-lspconfig' " Language server client
 Plug 'kabouzeid/nvim-lspinstall' " LSP easy configurations
 Plug 'hrsh7th/nvim-compe' " Smart auto completion
 Plug 'onsails/lspkind-nvim' " Icons to auto completion
+Plug 'kyazdani42/nvim-tree.lua' " File explorer
 
 " Themes
 Plug 'tomasr/molokai'

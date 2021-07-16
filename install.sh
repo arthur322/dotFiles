@@ -2,7 +2,7 @@
 
 ln -sf $PWD/nvim ~/.config/nvim
 
-# nvim '+PlugInstall | qa'
+nvim '+PlugInstall | qa'
 
 ln -s $PWD/zsh/.zshrc ~/.zshrc
 

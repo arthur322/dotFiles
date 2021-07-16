@@ -6,6 +6,7 @@ set number						" Number column
 set relativenumber		" Makes it relative
 set hidden						" Don't have to save the file to change buffer
 set encoding=UTF-8
+set regexpengine=1    " Just testing performance improvements
 
 set nobackup
 set nowritebackup
@@ -29,16 +30,17 @@ set copyindent
 set title             " Changes the terminal title
 set signcolumn=yes    " Shows the sign column, before the number column
 set mouse=a
-set cursorline        " Shows a line on cursor horizontally
+" set cursorline        " Shows a line on cursor horizontally
 set noshowcmd					" Shows information when on visual mode
 set splitbelow				" When open a new split, create the buffer below
 set splitright				" When open a new vsplit, create the buffer at the right side
 set noshowmode				" Hides the actual mode (i.e. "--INSERT--")
 set inccommand=split  " Shows a 'preview' when on substitution mode
 
+set lazyredraw        " Delays screen redraw to improve performance
 set updatetime=100
 set termguicolors
-set colorcolumn=80    " Column 'limit' line at the 80 character
+" set colorcolumn=80    " Column 'limit' line at the 80 character
 " Color the limit line, number line and visual mode lines
 highlight ColorColumn ctermbg=0 guibg=grey
 highlight LineNr cterm=none ctermfg=240 guifg=#2b506e guibg=#000000

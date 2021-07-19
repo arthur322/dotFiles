@@ -31,11 +31,16 @@ require('telescope').setup{
 
 -- Get user input and search by these folders
 function _G.live_grep_in_folder()
-  local search = vim.fn.input("Folder to search: ", "", "dir")
+  local final_search = {}
+  local search = vim.fn.input("Folders to search (divided by space, use <C-R>[register] to paste): ", "", "dir")
+
+  for search_item in string.gmatch(search, "%S+") do
+    table.insert(final_search, search_item)
+  end
 
   if search ~= '' then
     require'telescope.builtin'.live_grep({
-      search_dirs = { search },
+      search_dirs = final_search,
       prompt_title = 'Live Grep for "' .. search .. '"'
     })
   end

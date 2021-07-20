@@ -9,6 +9,7 @@ Plug 'nvim-lua/popup.nvim' " Telescope dep
 Plug 'nvim-lua/plenary.nvim' " Telescope dep
 Plug 'lewis6991/gitsigns.nvim' " Git signs to file
 Plug 'nvim-telescope/telescope.nvim' " Fuzzy finder
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " Telescope better matchings
 Plug 'kyazdani42/nvim-web-devicons' " Telescope icons
 Plug 'tpope/vim-surround' " Surrounding mappings
 Plug 'tpope/vim-commentary' " Easy comments

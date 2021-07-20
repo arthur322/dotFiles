@@ -26,8 +26,15 @@ require('telescope').setup{
         }
       }
     }
+  },
+  extensions = {
+    fuzzy = true,                    -- false will only do exact matching
+    override_generic_sorter = false, -- override the generic sorter
+    override_file_sorter = true,     -- override the file sorter
   }
 }
+
+require('telescope').load_extension('fzf')
 
 -- Get user input and search by these folders
 function _G.live_grep_in_folder()

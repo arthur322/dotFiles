@@ -1,6 +1,7 @@
 " All mappings must be here!
 " ================================
 
+nnoremap <space> <Nop>
 let mapleader="\<Space>"      " Set the leader key
 
 " Config files

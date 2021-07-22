@@ -19,11 +19,10 @@ set incsearch					" Highlights the search on the fly
 set ignorecase				" Search case nonsensitive
 set smartcase					" Makes it case sensitive if needed
 set nowrap
-set linespace=2
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
 set expandtab					" Use space instead of tabs
+set tabstop=2         " How many spaces is needed to create a tab spacer
+set softtabstop=2     " How many spaces is inseted when <Tab> is pressed
+set shiftwidth=2
 set autoindent
 set copyindent
 
@@ -45,11 +44,17 @@ set termguicolors
 highlight ColorColumn ctermbg=0 guibg=grey
 highlight LineNr cterm=none ctermfg=240 guifg=#2b506e guibg=#000000
 highlight Visual cterm=NONE ctermbg=236 ctermfg=NONE guibg=Grey40
-" set background=light
+
+" let g:tokyonight_style = "storm"
+set background=light
+let g:neosolarized_contrast = "high"
+let g:neosolarized_vertSplitBgTrans = 0
+let g:neosolarized_italic = 1
 " colorscheme molokai
 " colorscheme one-nvim
 " colorscheme OceanicNext
 " colorscheme nightfly
+colorscheme NeoSolarized
 
 set wildignore+=node_modules/*
 set path+=**
@@ -66,3 +71,5 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=300}
 augroup END
 
+let g:nvim_tree_disable_netrw = 0 " Overwrite plugin configuration
+let g:nvim_tree_hijack_netrw = 1 "1 by default, prevents netrw from automatically opening when opening directories (but lets you keep its other utilities)

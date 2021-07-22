@@ -30,7 +30,7 @@ end
 
 require('lualine').setup {
   options = {
-    theme = 'nightfly'
+    theme = 'solarized'
   },
   sections = {
     lualine_a = {

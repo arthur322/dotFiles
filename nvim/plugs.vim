@@ -29,6 +29,8 @@ Plug 'projekt0n/github-nvim-theme'
 Plug 'Th3Whit3Wolf/one-nvim'
 Plug 'mhartington/oceanic-next'
 Plug 'bluz71/vim-nightfly-guicolors'
+Plug 'folke/tokyonight.nvim'
+Plug 'overcache/NeoSolarized'
 
 call plug#end()
 

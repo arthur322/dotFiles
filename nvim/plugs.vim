@@ -21,6 +21,7 @@ Plug 'kabouzeid/nvim-lspinstall' " LSP easy configurations
 Plug 'hrsh7th/nvim-compe' " Smart auto completion
 Plug 'onsails/lspkind-nvim' " Icons to auto completion
 Plug 'kyazdani42/nvim-tree.lua' " File explorer
+Plug 'akinsho/nvim-bufferline.lua' " Tab manager
 
 " Themes
 Plug 'tomasr/molokai'

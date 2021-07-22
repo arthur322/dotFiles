@@ -48,19 +48,25 @@ nnoremap <C-x> :q<cr>
 " Esc in terminal mode
 tnoremap <leader><Esc> <C-\><C-n>
 
-" Windows
+" Window move and resize
 nnoremap <C-w>< 10<C-w>>
 nnoremap <C-w>> 10<C-w><
 nnoremap <C-w>+ 10<C-w>+
 nnoremap <C-w>- 10<C-w>-
-nnoremap <leader>h <C-w>h
-nnoremap <leader>j <C-w>j
-nnoremap <leader>k <C-w>k
-nnoremap <leader>l <C-w>l
+nnoremap <M-h> <C-w>h
+nnoremap <M-j> <C-w>j
+nnoremap <M-k> <C-w>k
+nnoremap <M-l> <C-w>l
 
 " Alt-tab like buffer switch
 nnoremap <leader><Tab> <C-^>
+nnoremap <leader><S-Tab> <C-^>:bdelete #<CR>
 
 " Clear search highlights
 nnoremap <silent> <leader>/ :nohl<CR>
+
+" Quickfix list
+nnoremap [q :cprev<CR>
+nnoremap ]q :cnext<CR>
+nnoremap <leader>q :copen<CR>
 

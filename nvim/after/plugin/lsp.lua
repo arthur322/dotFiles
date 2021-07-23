@@ -84,6 +84,8 @@ end
 -- Eslint
 local nvim_lsp = require("lspconfig")
 local filetypes = {
+    javascript = "eslint",
+    javascriptreact = "eslint",
     typescript = "eslint",
     typescriptreact = "eslint",
 }
@@ -110,6 +112,8 @@ local formatters = {
     prettier = {command = "prettier", args = {"--stdin-filepath", "%filepath"}}
 }
 local formatFiletypes = {
+    javascript = "prettier",
+    javascriptreact = "prettier",
     typescript = "prettier",
     typescriptreact = "prettier"
 }

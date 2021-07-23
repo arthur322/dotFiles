@@ -10,7 +10,9 @@ require('telescope').setup{
     mappings = {
       n = {
         ["<Tab>"] = actions.move_selection_previous,
-        ["<S-Tab>"] = actions.move_selection_next
+        ["<S-Tab>"] = actions.move_selection_next,
+        ["s"] = actions.toggle_selection,
+        ["qf"] = actions.send_selected_to_qflist,
       },
       i = {
         ["<Tab>"] = actions.move_selection_previous,

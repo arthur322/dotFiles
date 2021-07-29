@@ -16,7 +16,7 @@ require('telescope').setup{
       },
       i = {
         ["<Tab>"] = actions.move_selection_previous,
-        ["<S-Tab>"] = actions.move_selection_next
+        ["<S-Tab>"] = actions.move_selection_next,
       },
     }
   },
@@ -26,6 +26,22 @@ require('telescope').setup{
         n = {
           ["<c-d>"] = actions.delete_buffer,
         }
+      }
+    },
+    git_status = {
+      mappings = {
+        n = {
+          ["<Tab>"] = actions.move_selection_previous,
+          ["<S-Tab>"] = actions.move_selection_next,
+          ["s"] = actions.git_staging_toggle,
+          ["u"] = actions.git_staging_toggle,
+        },
+        i = {
+          ["<Tab>"] = actions.move_selection_previous,
+          ["<S-Tab>"] = actions.move_selection_next,
+          ["<leader>s"] = actions.git_staging_toggle,
+          ["<leader>u"] = actions.git_staging_toggle,
+        },
       }
     }
   },
@@ -57,7 +73,9 @@ end
 
 EOF
 
+nnoremap <leader>t <cmd>Telescope<cr>
 nnoremap <c-p> <cmd>Telescope git_files<cr>
+nnoremap <leader><c-p> <cmd>Telescope git_status<cr>
 nnoremap <c-f> <cmd>Telescope live_grep<cr>
 nnoremap <leader><Enter> <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>

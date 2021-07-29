@@ -60,7 +60,7 @@ nnoremap <M-l> <C-w>l
 
 " Alt-tab like buffer switch
 nnoremap <leader><Tab> <C-^>
-nnoremap <leader><S-Tab> <C-^>:bdelete #<CR>
+nnoremap <leader><S-Tab> :bprevious<CR>:bdelete #<CR>
 
 " Clear search highlights
 nnoremap <silent> <leader>/ :nohl<CR>
@@ -69,4 +69,8 @@ nnoremap <silent> <leader>/ :nohl<CR>
 nnoremap [q :cprev<CR>
 nnoremap ]q :cnext<CR>
 nnoremap <leader>q :copen<CR>
+
+" Maintain selection when indenting
+vmap < <gv
+vmap > >gv
 

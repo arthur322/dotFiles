@@ -29,7 +29,7 @@ set copyindent
 set title             " Changes the terminal title
 set signcolumn=yes    " Shows the sign column, before the number column
 set mouse=a
-" set cursorline        " Shows a line on cursor horizontally
+set cursorline        " Shows a line on cursor horizontally
 set noshowcmd					" Shows information when on visual mode
 set splitbelow				" When open a new split, create the buffer below
 set splitright				" When open a new vsplit, create the buffer at the right side
@@ -40,10 +40,6 @@ set lazyredraw        " Delays screen redraw to improve performance
 set updatetime=100
 set termguicolors
 " set colorcolumn=80    " Column 'limit' line at the 80 character
-" Color the limit line, number line and visual mode lines
-highlight ColorColumn ctermbg=0 guibg=grey
-highlight LineNr cterm=none ctermfg=240 guifg=#2b506e guibg=#000000
-highlight Visual cterm=NONE ctermbg=236 ctermfg=NONE guibg=Grey40
 
 " let g:tokyonight_style = "storm"
 set background=light
@@ -61,9 +57,9 @@ set path+=**
 
 let g:netrw_liststyle=3      " Netrw configurations
 let g:netrw_banner=0
-let g:netrw_browse_split=2
 let g:netrw_winsize=30
-let g:netrw_browse_split=4   " Where the file is open
+let g:netrw_browse_split=0   " Where to open the file
+let g:netrw_preview=1        " Open preview on vsplit
 
 " Highlight text on yank
 augroup highlight_yank

@@ -43,24 +43,6 @@ set updatetime=100
 set termguicolors
 " set colorcolumn=80    " Column 'limit' line at the 80 character
 
-" let g:tokyonight_style = "storm"
-set background=dark
-let g:neosolarized_contrast = "high"
-let g:neosolarized_vertSplitBgTrans = 0
-let g:neosolarized_italic = 1
-" Nebulous colorscheme options "
-let g:nb_style = "midnight"
-let g:nb_italic_comments = "true"
-let g:nb_italic_keywords = "true"
-let g:nb_italic_functions= "true"
-let g:nb_italic_variables= "true"
-" colorscheme molokai
-" colorscheme one-nvim
-" colorscheme OceanicNext
-" colorscheme nightfly
-" colorscheme NeoSolarized
-colorscheme nebulous
-
 set wildignore+=node_modules/*
 set path+=**
 

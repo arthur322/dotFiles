@@ -30,7 +30,7 @@ end
 
 require('lualine').setup {
   options = {
-    theme = 'solarized'
+    theme = 'nebulous'
   },
   sections = {
     lualine_a = {

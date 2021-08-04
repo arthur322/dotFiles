@@ -25,6 +25,8 @@ set softtabstop=2     " How many spaces is inseted when <Tab> is pressed
 set shiftwidth=2
 set autoindent
 set copyindent
+set foldmethod=indent " Use indentation as fold method
+set foldlevel=99      " Open file with all folds open
 
 set title             " Changes the terminal title
 set signcolumn=yes    " Shows the sign column, before the number column
@@ -42,15 +44,22 @@ set termguicolors
 " set colorcolumn=80    " Column 'limit' line at the 80 character
 
 " let g:tokyonight_style = "storm"
-set background=light
+set background=dark
 let g:neosolarized_contrast = "high"
 let g:neosolarized_vertSplitBgTrans = 0
 let g:neosolarized_italic = 1
+" Nebulous colorscheme options "
+let g:nb_style = "midnight"
+let g:nb_italic_comments = "true"
+let g:nb_italic_keywords = "true"
+let g:nb_italic_functions= "true"
+let g:nb_italic_variables= "true"
 " colorscheme molokai
 " colorscheme one-nvim
 " colorscheme OceanicNext
 " colorscheme nightfly
-colorscheme NeoSolarized
+" colorscheme NeoSolarized
+colorscheme nebulous
 
 set wildignore+=node_modules/*
 set path+=**

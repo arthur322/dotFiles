@@ -31,6 +31,7 @@ Plug 'mhartington/oceanic-next'
 Plug 'bluz71/vim-nightfly-guicolors'
 Plug 'folke/tokyonight.nvim'
 Plug 'overcache/NeoSolarized'
+Plug 'Yagua/nebulous.nvim'
 
 call plug#end()
 

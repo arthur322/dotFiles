@@ -49,8 +49,8 @@ nnoremap <C-x> :q<cr>
 tnoremap <leader><Esc> <C-\><C-n>
 
 " Window move and resize
-nnoremap <C-w>< 10<C-w>>
-nnoremap <C-w>> 10<C-w><
+nnoremap <C-w>. 10<C-w>>
+nnoremap <C-w>, 10<C-w><
 nnoremap <C-w>+ 10<C-w>+
 nnoremap <C-w>- 10<C-w>-
 nnoremap <M-h> <C-w>h

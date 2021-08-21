@@ -23,6 +23,7 @@ Plug 'onsails/lspkind-nvim' " Icons to auto completion
 Plug 'kyazdani42/nvim-tree.lua' " File explorer
 Plug 'akinsho/nvim-bufferline.lua' " Tab manager
 Plug 'wakatime/vim-wakatime'
+Plug 'el-iot/buffer-tree-explorer'
 
 " Themes
 Plug 'tomasr/molokai'

@@ -74,9 +74,15 @@ end
 EOF
 
 nnoremap <leader>t <cmd>Telescope<cr>
+
 nnoremap <c-p> <cmd>Telescope git_files<cr>
-nnoremap <leader><c-p> <cmd>Telescope git_status<cr>
+vnoremap <c-p> "ty<cmd>Telescope git_files<cr><c-r>t
+
+nnoremap <leader><c-p> <cmd>Telescope git_status<cr><c-r>+
+
 nnoremap <c-f> <cmd>Telescope live_grep<cr>
+vnoremap <c-f> "ty<cmd>Telescope live_grep<cr><c-r>t
+
 nnoremap <leader><Enter> <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader><c-f> :call v:lua.live_grep_in_folder()<cr>

@@ -107,3 +107,5 @@ export PATH=$PATH:/usr/local/go/bin
 # Alias
 alias vim='nvim'
 
+# Bind Ctrl-space to accept autosuggestions
+bindkey '^ ' autosuggest-accept

@@ -85,5 +85,5 @@ vnoremap <c-f> "ty<cmd>Telescope live_grep<cr><c-r>t
 
 nnoremap <leader><Enter> <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-nnoremap <leader><c-f> :call v:lua.live_grep_in_folder()<cr>
+nnoremap <leader><c-f> :call v:lua.live_grep_in_folder()<cr><c-r>+
 

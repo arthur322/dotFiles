@@ -25,7 +25,7 @@ set softtabstop=2     " How many spaces is inseted when <Tab> is pressed
 set shiftwidth=2
 set autoindent
 set copyindent
-set foldmethod=syntax " Use indentation as fold method
+set foldmethod=indent " Use indentation as fold method
 set foldlevel=99      " Open file with all folds open
 
 set title             " Changes the terminal title

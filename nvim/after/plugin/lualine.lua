@@ -30,7 +30,7 @@ end
 
 require('lualine').setup {
   options = {
-    theme = 'nebulous'
+    theme = 'solarized_light'
   },
   sections = {
     lualine_a = {
@@ -41,8 +41,8 @@ require('lualine').setup {
         symbols = {added = '+', modified = '~', removed = '-'}
       }
     },
-    lualine_b = {filepath, breadcrumb},
-    lualine_c = {''},
+    lualine_b = {''},
+    lualine_c = {filepath},
     lualine_x = {
       {
         lsp_diag,

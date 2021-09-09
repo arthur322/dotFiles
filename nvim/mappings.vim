@@ -26,10 +26,14 @@ vnoremap <leader>y "+y
 tnoremap <Esc> <C-\><C-n>
 
 " Move line with alt key "
-nnoremap <M-j> ddp
-nnoremap <M-k> ddkP
+" nnoremap <M-j> ddp
+" nnoremap <M-k> ddkP
 vnoremap <M-j> :m '>+1<CR>gv=gv
 vnoremap <M-k> :m '<-2<CR>gv=gv
+
+" Scroll with <C-j> and <C-k>
+nnoremap <c-j> 2<c-e>
+nnoremap <c-k> 2<c-y>
 
 " Bind esc key "
 inoremap jk <Esc>
@@ -60,7 +64,6 @@ nnoremap <M-l> <C-w>l
 
 " Alt-tab like buffer switch
 nnoremap <leader><Tab> <C-^>
-nnoremap <leader><S-Tab> :bprevious<CR>:bdelete #<CR>
 
 " Clear search highlights
 nnoremap <silent> <leader>/ :nohl<CR>
@@ -74,3 +77,5 @@ nnoremap <leader>q :copen<CR>
 vmap < <gv
 vmap > >gv
 
+" Quick highlight
+nnoremap <leader>k *N

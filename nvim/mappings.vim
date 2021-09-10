@@ -13,9 +13,13 @@ nnoremap <leader>pi :PlugInstall<cr>
 nnoremap <leader>p "+p
 nnoremap <leader>P "+P
 nnoremap <leader>y "+y
+nnoremap Y y$
 vnoremap <leader>p "+p
 vnoremap <leader>P "+P
 vnoremap <leader>y "+y
+
+" Select the whole file
+nnoremap <C-a> ggVG
 
 " Save or quit typo
 :command Q q

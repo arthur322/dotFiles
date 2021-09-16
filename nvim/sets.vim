@@ -28,6 +28,9 @@ set copyindent
 set foldmethod=indent " Use indentation as fold method
 set foldlevel=99      " Open file with all folds open
 
+" Only set foldmethod=syntax in git diff files
+autocmd FileType git setlocal foldmethod=syntax foldlevel=0
+
 set title             " Changes the terminal title
 set signcolumn=yes    " Shows the sign column, before the number column
 set mouse=a

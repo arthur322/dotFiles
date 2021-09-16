@@ -34,6 +34,7 @@ Plug 'bluz71/vim-nightfly-guicolors'
 Plug 'folke/tokyonight.nvim'
 Plug 'overcache/NeoSolarized'
 Plug 'Yagua/nebulous.nvim'
+Plug 'RRethy/nvim-base16'
 
 call plug#end()
 

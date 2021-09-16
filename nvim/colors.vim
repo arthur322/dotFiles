@@ -1,7 +1,7 @@
 " All `colorscheme` settings must be here!
 " ================================
 
-set background=dark
+set background=light
 
 " 'overcache/NeoSolarized'
 let g:neosolarized_contrast = "high"
@@ -14,15 +14,23 @@ let g:tokyonight_style = "storm"
 " colorscheme tokyonight
 
 " 'Yagua/nebulous.nvim'
-let g:nb_style = "midnight"
-let g:nb_italic_comments = "true"
-let g:nb_italic_keywords = "true"
-let g:nb_italic_functions= "true"
-let g:nb_italic_variables= "true"
-colorscheme nebulous
+" lua require("nebulous").setup({
+" \  variant = "midnight",
+" \  disable_bg = true,
+" \  italic_elements = {
+" \    comments   = true,
+" \    keywords   = true,
+" \    functions  = true,
+" \    variables  = true,
+" \  },
+" \})
 
 " colorscheme molokai
 " colorscheme one-nvim
 " colorscheme OceanicNext
 " colorscheme nightfly
+" colorscheme base16-unikitty-light
+" colorscheme base16-humanoid-light
+" colorscheme base16-solarized-light
+colorscheme base16-summerfruit-light
 

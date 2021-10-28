@@ -24,6 +24,7 @@ Plug 'kyazdani42/nvim-tree.lua' " File explorer
 Plug 'akinsho/nvim-bufferline.lua' " Tab manager
 Plug 'wakatime/vim-wakatime'
 Plug 'el-iot/buffer-tree-explorer'
+Plug 'windwp/nvim-ts-autotag'
 
 " Themes
 Plug 'tomasr/molokai'

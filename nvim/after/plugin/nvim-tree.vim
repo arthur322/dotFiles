@@ -1,15 +1,11 @@
-let g:nvim_tree_side = 'left' "left by default
-let g:nvim_tree_width = 40 "30 by default, can be width_in_columns or 'width_in_percent%'
 let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
-" let g:nvim_tree_gitignore = 1 "0 by default
-let g:nvim_tree_auto_open = 1 "0 by default, opens the tree when typing `vim $DIR` or `vim`
-let g:nvim_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
 let g:nvim_tree_auto_ignore_ft = [ 'startify', 'dashboard' ] "empty by default, don't auto open tree on specific filetypes.
 let g:nvim_tree_quit_on_open = 0 "0 by default, closes the tree when you open a file
 let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
 let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
 let g:nvim_tree_hide_dotfiles = 0 "0 by default, this option hides files and folders starting with a dot `.`
 let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
+let g:nvim_tree_highlight_opened_files = 3
 let g:nvim_tree_highlight_opened_files = 3 "0 by default, will enable folder and file icon highlight for opened files/directories.
 let g:nvim_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
 let g:nvim_tree_tab_open = 1 "0 by default, will open the tree when entering a new tab and the tree was previously open
@@ -90,4 +86,47 @@ set termguicolors " this variable must be enabled for colors to be applied prope
 
 " a list of groups can be found at `:help nvim_tree_highlight`
 highlight NvimTreeFolderIcon guifg=DarkBlue
+
+lua require'nvim-tree'.setup {
+\  disable_netrw       = false,
+\  hijack_netrw        = false,
+\  open_on_setup       = true,
+\  ignore_ft_on_setup  = {},
+\  update_to_buf_dir   = {
+\    enable = true,
+\    auto_open = true,
+\  },
+\  auto_close          = false,
+\  open_on_tab         = false,
+\  hijack_cursor       = false,
+\  update_cwd          = false,
+\  diagnostics         = {
+\    enable = true,
+\    icons = {
+\      hint = "",
+\      info = "",
+\      warning = "",
+\      error = "",
+\    }
+\  },
+\  update_focused_file = {
+\    enable      = true,
+\    update_cwd  = false,
+\    ignore_list = {"node_modules"}
+\  },
+\  system_open = {
+\    cmd  = nil,
+\    args = {}
+\  },
+\  view = {
+\    width = 40,
+\    height = 30,
+\    side = 'left',
+\    auto_resize = true,
+\    mappings = {
+\      custom_only = false,
+\      list = {}
+\    }
+\  }
+\}
 

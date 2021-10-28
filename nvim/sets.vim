@@ -61,5 +61,3 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=300}
 augroup END
 
-let g:nvim_tree_disable_netrw = 0 " Overwrite plugin configuration
-let g:nvim_tree_hijack_netrw = 1 "1 by default, prevents netrw from automatically opening when opening directories (but lets you keep its other utilities)

@@ -82,4 +82,4 @@ vmap < <gv
 vmap > >gv
 
 " Quick highlight
-nnoremap <leader>k *N
+nnoremap <leader>n *N

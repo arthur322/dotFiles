@@ -25,6 +25,8 @@ Plug 'akinsho/nvim-bufferline.lua' " Tab manager
 Plug 'wakatime/vim-wakatime'
 Plug 'el-iot/buffer-tree-explorer'
 Plug 'windwp/nvim-ts-autotag'
+Plug 'ThePrimeagen/harpoon'
+Plug 'github/copilot.vim'
 
 " Themes
 Plug 'tomasr/molokai'

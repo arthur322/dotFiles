@@ -17,7 +17,6 @@ Plug 'windwp/nvim-autopairs' " Auto closing pairs
 Plug 'hoob3rt/lualine.nvim' " Status line
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " Buffer code parser
 Plug 'neovim/nvim-lspconfig' " Language server client
-Plug 'kabouzeid/nvim-lspinstall' " LSP easy configurations
 Plug 'hrsh7th/nvim-compe' " Smart auto completion
 Plug 'onsails/lspkind-nvim' " Icons to auto completion
 Plug 'kyazdani42/nvim-tree.lua' " File explorer
@@ -27,6 +26,8 @@ Plug 'el-iot/buffer-tree-explorer'
 Plug 'windwp/nvim-ts-autotag'
 Plug 'ThePrimeagen/harpoon'
 Plug 'github/copilot.vim'
+Plug 'williamboman/nvim-lsp-installer'
+Plug 'jose-elias-alvarez/null-ls.nvim'
 
 " Themes
 Plug 'tomasr/molokai'

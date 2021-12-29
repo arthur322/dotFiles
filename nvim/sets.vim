@@ -2,11 +2,13 @@
 " ================================
 
 syntax enable
-set number						" Number column
-set relativenumber		" Makes it relative
-set hidden						" Don't have to save the file to change buffer
+set number            " Number column
+set relativenumber    " Makes it relative
+set hidden            " Don't have to save the file to change buffer
 set encoding=UTF-8
 set regexpengine=1    " Just testing performance improvements
+" set list              " Display hidden chars, used with listchars
+set listchars=space:·,tab:>\ ,trail:~,precedes:«,extends:»
 
 set nobackup
 set nowritebackup

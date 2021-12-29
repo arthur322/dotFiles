@@ -1,37 +1,11 @@
-local function filepath()
-  -- %f for file path
-  -- %m for if file is modified
-  return '%f%m'
-end
-
 local function breadcrumb()
   return vim.fn['nvim_treesitter#statusline']()
-end
-
-local function lsp_diag()
-  local result = {}
-  local actual_buffer = vim.api.nvim_get_current_buf()
-  local levels = {
-    E = 'Error',
-    W = 'Warning',
-    I = 'Information',
-    H = 'Hint'
-  }
-
-  for key, level in pairs(levels) do
-    local level_count = vim.lsp.diagnostic.get_count(actual_buffer, level)
-    if level_count > 0 then
-      table.insert(result, key .. ': ' .. level_count)
-    end
-  end
-
-  return table.concat(result, ' / ')
 end
 
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'papercolor_light',
+    theme = 'ayu_light',
     section_separators = { left = '', right = ''},
     component_separators = { left = '', right = ''}
   },
@@ -45,19 +19,32 @@ require('lualine').setup {
       }
     },
     lualine_b = {''},
-    lualine_c = {filepath},
-    lualine_x = {
+    lualine_c = {
       {
-        lsp_diag,
-        color = 'WarningMsg'
-      },
+        'filename',
+        file_status = true,  -- displays file status (readonly status, modified status)
+        path = 1,            -- 0 = just filename, 1 = relative path, 2 = absolute path
+        shorting_target = 40 -- Shortens path to leave 40 space in the window
+                             -- for other components. Terrible name any suggestions?
+      }
+    },
+    lualine_x = {
+      'diagnostics',
       'filetype'
     },
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },
   inactive_sections = {
-    lualine_a = {filepath},
+    lualine_a = {
+      {
+        'filename',
+        file_status = true,  -- displays file status (readonly status, modified status)
+        path = 1,            -- 0 = just filename, 1 = relative path, 2 = absolute path
+        shorting_target = 40 -- Shortens path to leave 40 space in the window
+                             -- for other components. Terrible name any suggestions?
+      }
+    },
     lualine_b = {},
     lualine_c = {},
     lualine_x = {},

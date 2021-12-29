@@ -33,4 +33,5 @@ let g:tokyonight_style = "storm"
 " colorscheme base16-humanoid-light
 " colorscheme base16-solarized-light
 colorscheme base16-summerfruit-light
+" colorscheme base16-onedark
 

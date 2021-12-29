@@ -72,6 +72,9 @@ nnoremap <leader><Tab> <C-^>
 " Clear search highlights
 nnoremap <silent> <leader>/ :nohl<CR>
 
+" Search for selected text
+xnoremap / "qy/<C-r>q
+
 " Quickfix list
 nnoremap [q :cprev<CR>
 nnoremap ]q :cnext<CR>

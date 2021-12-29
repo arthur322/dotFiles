@@ -1,7 +1,11 @@
 -- vim.lsp.set_log_level("debug")
+local lsp_installer = require "nvim-lsp-installer"
+
+-- Auto complete help
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- keymaps
-
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -27,14 +31,16 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 
-  -- Set some keybinds conditional on server capabilities
+  -- Set some keybinds conditional for formatting
   if client.resolved_capabilities.document_formatting then
     buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  elseif client.resolved_capabilities.document_range_formatting then
+  end
+
+  if client.resolved_capabilities.document_range_formatting then
     buf_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
   end
 
-  -- Set autocommands conditional on server_capabilities
+  -- Enable highlight on hover
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec([[
     if &background ==# 'dark'
@@ -56,83 +62,42 @@ local on_attach = function(client, bufnr)
   end
 end
 
--- config that activates keymaps and enables snippet support
-local function make_config()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
-  return {
-    -- enable snippet support
-    capabilities = capabilities,
-    -- map buffer local keybindings when the language server attaches
+-- install lsp servers with lsp_installer
+lsp_installer.on_server_ready(function(server)
+  -- Specify the default options which we'll use to setup all servers
+  local default_opts = {
     on_attach = on_attach,
   }
-end
 
--- lsp-install
-local function setup_servers()
-  require'lspinstall'.setup()
+  -- Now we'll create a server_opts table where we'll specify our custom LSP server configuration
+  local server_opts = {
+    -- Provide settings that should only apply to the "eslintls" server
+    ["tsserver"] = function()
+      default_opts = {
+        on_attach = function(client, bufnr)
+          client.resolved_capabilities.document_formatting = false
+          client.resolved_capabilities.document_range_formatting = false
 
-  -- get all installed servers
-  local servers = require'lspinstall'.installed_servers()
+          on_attach(client, bufnr)
+        end,
+      }
+    end,
+    ["eslint"] = function()
+      default_opts = {
+        on_attach = function(client, bufnr)
+          client.resolved_capabilities.document_formatting = true
 
-  for _, server in pairs(servers) do
-    local config = make_config()
-
-    require'lspconfig'[server].setup(config)
-  end
-end
-
-setup_servers()
-
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require'lspinstall'.post_install_hook = function ()
-  setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-end
-
--- Eslint
-local nvim_lsp = require("lspconfig")
-local filetypes = {
-    javascript = "eslint",
-    javascriptreact = "eslint",
-    typescript = "eslint",
-    typescriptreact = "eslint",
-}
-local linters = {
-    eslint = {
-        sourceName = "eslint",
-        command = "eslint_d",
-        rootPatterns = {".eslintrc.js", "package.json"},
-        debounce = 100,
-        args = {"--stdin", "--stdin-filename", "%filepath", "--format", "json"},
-        parseJson = {
-            errorsRoot = "[0].messages",
-            line = "line",
-            column = "column",
-            endLine = "endLine",
-            endColumn = "endColumn",
-            message = "${message} [${ruleId}]",
-            security = "severity"
+          on_attach(client, bufnr)
+        end,
+        format = {
+          enable = true,
         },
-        securities = {[2] = "error", [1] = "warning"}
-    }
-}
-local formatters = {
-    prettier = {command = "prettier", args = {"--stdin-filepath", "%filepath"}}
-}
-local formatFiletypes = {
-    javascript = "prettier",
-    javascriptreact = "prettier",
-    typescript = "prettier",
-    typescriptreact = "prettier"
-}
-nvim_lsp.diagnosticls.setup {
-    on_attach = on_attach,
-    filetypes = vim.tbl_keys(filetypes),
-    init_options = {
-        filetypes = filetypes,
-        linters = linters,
-        formatters = formatters,
-        formatFiletypes = formatFiletypes
-    }
-}
+      }
+    end,
+  }
+
+  -- Use the server's custom settings, if they exist, otherwise default to the default options
+  local server_options = server_opts[server.name] and server_opts[server.name]() or default_opts
+  server:setup(server_options)
+end)
+

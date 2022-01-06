@@ -1,6 +1,18 @@
 " All plugins must be here!
 " ================================
 
+" Install vim-plug if not found
+let data_dir = '~/.local/share/nvim/site'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source ~/.config/nvim/init.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source ~/.config/nvim/init.vim
+\| endif
+
 call plug#begin()
 
 Plug 'lambdalisue/nerdfont.vim' " Glyph icons
@@ -27,6 +39,8 @@ Plug 'ThePrimeagen/harpoon' " Easy navigation between frequently files
 Plug 'github/copilot.vim' " Github's copilot
 Plug 'williamboman/nvim-lsp-installer' " Easy installation for lsp clients
 Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-sleuth'
 
 " Themes
 Plug 'tomasr/molokai'

@@ -61,10 +61,10 @@ nnoremap <C-w>. 10<C-w>>
 nnoremap <C-w>, 10<C-w><
 nnoremap <C-w>+ 10<C-w>+
 nnoremap <C-w>- 10<C-w>-
-nnoremap <M-h> <C-w>h
-nnoremap <M-j> <C-w>j
-nnoremap <M-k> <C-w>k
-nnoremap <M-l> <C-w>l
+" nnoremap <M-h> <C-w>h
+" nnoremap <M-j> <C-w>j
+" nnoremap <M-k> <C-w>k
+" nnoremap <M-l> <C-w>l
 
 " Alt-tab like buffer switch
 nnoremap <leader><Tab> <C-^>

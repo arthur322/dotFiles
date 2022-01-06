@@ -21,12 +21,11 @@ Plug 'hrsh7th/nvim-compe' " Smart auto completion
 Plug 'onsails/lspkind-nvim' " Icons to auto completion
 Plug 'kyazdani42/nvim-tree.lua' " File explorer
 Plug 'akinsho/nvim-bufferline.lua' " Tab manager
-Plug 'wakatime/vim-wakatime'
-Plug 'el-iot/buffer-tree-explorer'
-Plug 'windwp/nvim-ts-autotag'
-Plug 'ThePrimeagen/harpoon'
-Plug 'github/copilot.vim'
-Plug 'williamboman/nvim-lsp-installer'
+" Plug 'wakatime/vim-wakatime'
+Plug 'windwp/nvim-ts-autotag' " Auto tag features in tsx files
+Plug 'ThePrimeagen/harpoon' " Easy navigation between frequently files
+Plug 'github/copilot.vim' " Github's copilot
+Plug 'williamboman/nvim-lsp-installer' " Easy installation for lsp clients
 Plug 'jose-elias-alvarez/null-ls.nvim'
 
 " Themes

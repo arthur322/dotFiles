@@ -41,6 +41,10 @@ Plug 'williamboman/nvim-lsp-installer' " Easy installation for lsp clients
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-sleuth'
+Plug 'mhinz/vim-startify'
+Plug 'petertriho/nvim-scrollbar'
+Plug 'kevinhwang91/nvim-hlslens'
+Plug 'vimwiki/vimwiki'
 
 " Themes
 Plug 'tomasr/molokai'

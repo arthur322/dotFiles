@@ -15,9 +15,9 @@ require'bufferline'.setup({
 -- vim.api.nvim_set_keymap('n', '<leader>b', "<cmd>BufferLinePick<CR>", { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('n', '<leader><leader><Tab>', "<cmd>BufferLinePick<CR>", { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('n', '<leader>B', "<cmd>BufferLinePickClose<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<M-l>', "<cmd>BufferLineCycleNext<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<M-h>', "<cmd>BufferLineCyclePrev<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<M-j><M-j>', "<cmd>BufferLineCyclePrev<CR>:bdelete #<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-l>', "<cmd>BufferLineCycleNext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-h>', "<cmd>BufferLineCyclePrev<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bc', "<cmd>BufferLineCyclePrev<CR>:bdelete #<CR>", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<leader>1', "<cmd>BufferLineGoToBuffer 1<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>2', "<cmd>BufferLineGoToBuffer 2<CR>", { noremap = true, silent = true })

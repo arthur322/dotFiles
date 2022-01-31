@@ -6,11 +6,18 @@ vim.g.nvim_tree_refresh_wait = 200
 
 vim.cmd([[
   highlight NvimTreeFolderIcon guifg=DarkBlue
+
+  function! SyncTree()
+    NvimTreeRefresh
+  endfunction
+  autocmd BufEnter * call SyncTree()
 ]])
 
 require'nvim-tree'.setup {
   disable_netrw = false,
   hijack_netrw = false,
+  hijack_cursor = true,
+  update_cwd = false,
   open_on_setup = false,
   update_to_buf_dir   = {
     enable = false,
@@ -18,8 +25,7 @@ require'nvim-tree'.setup {
   },
   update_focused_file = {
     enable = true,
-    update_cwd = true,
-    ignore_list = {'node_modules'},
+    update_cwd = false,
   },
   diagnostics = {
     enable = true,
@@ -35,7 +41,7 @@ require'nvim-tree'.setup {
 vim.api.nvim_set_keymap(
   'n',
   '<leader>e',
-  "<cmd>NvimTreeFindFileToggle<CR>",
+  "<cmd>NvimTreeFindFile<CR>",
   { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap(

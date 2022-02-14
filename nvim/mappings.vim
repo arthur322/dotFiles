@@ -2,7 +2,7 @@
 " ================================
 
 nnoremap <space> <Nop>
-let mapleader="\<Space>"      " Set the leader key
+let g:mapleader="\<Space>"      " Set the leader key
 
 " Config files
 nnoremap <leader>oc :vsplit ~/.config/nvim<cr>

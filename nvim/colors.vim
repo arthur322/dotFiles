@@ -1,7 +1,8 @@
 " All `colorscheme` settings must be here!
 " ================================
 
-set background=light
+set termguicolors
+set background=dark
 
 " 'overcache/NeoSolarized'
 let g:neosolarized_contrast = "high"
@@ -31,7 +32,24 @@ let g:tokyonight_style = "storm"
 " colorscheme nightfly
 " colorscheme base16-unikitty-light
 " colorscheme base16-humanoid-light
-" colorscheme base16-solarized-light
-colorscheme base16-summerfruit-light
+" colorscheme base16-solarized-dark
+" colorscheme base16-summerfruit-light
 " colorscheme base16-onedark
+" colorscheme base16-github
+" colorscheme uwu
+" colorscheme minischeme
+
+" 'ayu-theme/ayu-vim'
+let ayucolor="mirage"
+" let ayucolor="dark"
+" let ayucolor="light"
+" colorscheme ayu
+
+" 'morhetz/gruvbox'
+let g:gruvbox_contrast_dark = "hard"
+let g:gruvbox_italicize_strings = 1
+let g:gruvbox_italicize_comments = 1
+let g:gruvbox_improved_strings = 0
+colorscheme gruvbox
+
 

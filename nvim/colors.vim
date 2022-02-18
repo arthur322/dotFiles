@@ -52,4 +52,3 @@ let g:gruvbox_italicize_comments = 1
 let g:gruvbox_improved_strings = 0
 colorscheme gruvbox
 
-

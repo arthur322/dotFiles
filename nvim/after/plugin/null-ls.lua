@@ -9,7 +9,7 @@ require("null-ls").setup({
   sources = {
     formatting.prettier,
     formatting.stylua,
-    diagnostics.eslint,
+    diagnostics.eslint_d,
     code_actions.eslint_d,
     code_actions.refactoring,
   },

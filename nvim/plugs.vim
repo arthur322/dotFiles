@@ -46,6 +46,7 @@ Plug 'godlygeek/tabular'                                           " Organize an
 Plug 'vimwiki/vimwiki'
 Plug 'preservim/vim-markdown'
 Plug 'echasnovski/mini.nvim'                                       " Plugin collection for everything
+Plug 'editorconfig/editorconfig-vim'
 
 " Themes
 Plug 'tomasr/molokai'

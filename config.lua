@@ -11,8 +11,10 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
-vim.o.background = "light"
+vim.o.background = "dark"
 lvim.colorscheme = "onedarkpro"
+vim.wo.relativenumber = true;
+vim.o.cmdheight = 1
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -154,7 +156,8 @@ lvim.plugins = {
   {"tpope/vim-surround"},
   {"Xuyuanp/scrollbar.nvim"},
   {"olimorris/onedarkpro.nvim"},
-  {"editorconfig/editorconfig-vim"}
+  {"editorconfig/editorconfig-vim"},
+  {"lunarvim/colorschemes"},
 }
 
 -- scrollbar.nvim plugin setup
@@ -182,3 +185,14 @@ let g:scrollbar_shape = {
 vim.opt.foldmethod = "expr" -- folding set to "expr" for treesitter based folding
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
 vim.opt.foldlevelstart = 20
+
+-- Linters
+require("null-ls").setup({
+    sources = {
+        require("null-ls").builtins.formatting.prettier,
+        require("null-ls").builtins.formatting.eslint,
+        -- require("null-ls").builtins.diagnostics.eslint_d,
+        require("null-ls").builtins.diagnostics.eslint,
+    },
+})
+

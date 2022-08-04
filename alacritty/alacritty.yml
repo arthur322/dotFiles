@@ -1,22 +1,30 @@
 env:
   TERM: xterm-256color
 font:
-  size: 10
+  offset:
+    x: 0
+    y: 4
+  size: 16
   normal:
-    family: JetBrainsMono Nerd Font
-    style: Medium
+    family: FantasqueSansMono Nerd Font
+
 key_bindings:
   - key: Return
     mods: Control|Shift
     action: SpawnNewInstance
+  - key: Space
+    mods: Control
+    chars: "\x00"
+
+alt_send_esc: false
+
 window:
   dimensions:
     columns: 0
     lines: 0
   padding:
-    x: 0
+    x: 1
     y: 3
-  decorations: none
   draw_bold_text_with_bright_colors: true
 
 colors:

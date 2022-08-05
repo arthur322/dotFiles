@@ -59,8 +59,6 @@ lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -176,10 +174,10 @@ vim.o.cmdheight = 1
 lvim.format_on_save = false
 
 -- Colors
-vim.o.background = "light"
+vim.o.background = "dark"
 vim.g.material_style = "lighter" -- darker, lighter, oceanic, palenight, deep ocean
 vim.g.ayucolor = "light" -- light, mirage, dark
-vim.g.catppuccin_flavour = "mocha" -- latte, mocha, frappe, macchiato
+vim.g.catppuccin_flavour = "mocha" -- latte, mocha, macchiato, frappe
 lvim.colorscheme = "catppuccin"
 
 -- Additional Plugins
@@ -196,22 +194,15 @@ lvim.plugins = {
   { "marko-cerovac/material.nvim" },
   { "tpope/vim-repeat" },
   { "catppuccin/nvim", as = "catppuccin" },
-  -- {
-  --   "nvim-telescope/telescope.nvim",
-  --   requires = {
-  --     { "nvim-telescope/telescope-live-grep-args.nvim" },
-  --   },
-  --   config = function()
-  --     require("telescope").load_extension("live_grep_args")
-  --   end
-  -- },
   { "ayu-theme/ayu-vim" },
   {
     "nvim-telescope/telescope-live-grep-args.nvim",
     config = function()
       require("telescope").load_extension("live_grep_args")
     end
-  }
+  },
+  { 'mickael-menu/zk-nvim' },
+  { 'github/copilot.vim' }
 }
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -223,20 +214,32 @@ lvim.keys.normal_mode["<C-j>"] = "2<C-e>"
 lvim.keys.normal_mode["<C-k>"] = "2<C-y>"
 -- Remove ctrlz's suspend
 lvim.keys.normal_mode["<C-z>"] = "<Esc>"
+-- Bind ESC on terminal mode
+lvim.keys.term_mode["<Esc>"] = "<C-\\><c-n>"
 
 -- Which key "alt tab" buffers
 lvim.builtin.which_key.mappings["<tab>"] = { "<C-^>", "Last Buffer" }
 lvim.builtin.which_key.mappings["<tab>"] = { "<C-^>", "Last Buffer" }
 
 -- scrollbar.nvim plugin setup
-vim.cmd([[
-augroup ScrollbarInit
-  autocmd!
-  autocmd WinScrolled,VimResized,QuitPre * silent! lua require('scrollbar').show()
-  autocmd WinEnter,FocusGained           * silent! lua require('scrollbar').show()
-  autocmd WinLeave,BufLeave,BufWinLeave,FocusLost            * silent! lua require('scrollbar').clear()
-augroup end
+vim.g.scrollbar_excluded_filetypes = { 'NvimTree' }
+vim.api.nvim_create_autocmd({ "WinScrolled", "VimResized", "QuitPre" }, {
+  pattern = { "*" },
+  -- enable wrap mode for json files only
+  command = "lua require('scrollbar').show()",
+})
+vim.api.nvim_create_autocmd({ "WinEnter", "FocusGained" }, {
+  pattern = { "*" },
+  -- enable wrap mode for json files only
+  command = "lua require('scrollbar').show()",
+})
+vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave", "BufWinLeave", "FocusLost" }, {
+  pattern = { "*" },
+  -- enable wrap mode for json files only
+  command = "lua require('scrollbar').clear()",
+})
 
+vim.cmd([[
 let g:scrollbar_shape = {
   \ 'head': '█',
   \ 'body': '█',
@@ -262,9 +265,11 @@ require("null-ls").setup({
 vim.lsp.buf.format({ timeout_ms = 2000 })
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
-lvim.autocommands.custom_groups = {
-  { "BufEnter", "NvimTree", "set cursorline" },
-} -- Cursor line highlight on focused buffer
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "NvimTree" },
+  -- enable wrap mode for json files only
+  command = "set cursorline",
+}) -- Cursor line highlight on focused buffer
 
 -- Harpoon
 lvim.builtin.which_key.mappings["["] = { ':lua require("harpoon.ui").toggle_quick_menu()<CR>', "Open Harpoon menu" }
@@ -283,13 +288,39 @@ lvim.builtin.which_key.mappings["S"] = {
 }
 
 -- Nvimtree
-lvim.builtin.nvimtree.setup.renderer.highlight_opened_files = '3'
+lvim.builtin.nvimtree.setup.view.side = "left"
+lvim.builtin.nvimtree.setup.view.width = 40
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
+lvim.builtin.nvimtree.setup.renderer.highlight_opened_files = 'all'
 lvim.builtin.nvimtree.setup.hijack_cursor = true
 lvim.builtin.nvimtree.setup.update_focused_file = {
   enable      = true,
   update_cwd  = true,
   ignore_list = { 'node_modules' },
 }
+
+-- zk
+require("zk").setup({
+  -- can be "telescope", "fzf" or "select" (`vim.ui.select`)
+  -- it's recommended to use "telescope" or "fzf"
+  picker = "select",
+
+  lsp = {
+    -- `config` is passed to `vim.lsp.start_client(config)`
+    config = {
+      cmd = { "zk", "lsp" },
+      name = "zk",
+      -- on_attach = ...
+      -- etc, see `:h vim.lsp.start_client()`
+    },
+
+    -- automatically attach buffers in a zk notebook that match the given filetypes
+    auto_attach = {
+      enabled = true,
+      filetypes = { "markdown" },
+    },
+  },
+})
 
 -- Mateiral theme
 require('material').setup({

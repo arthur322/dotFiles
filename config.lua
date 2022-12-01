@@ -174,11 +174,19 @@ vim.o.cmdheight = 1
 lvim.format_on_save = false
 
 -- Colors
+vim.cmd([[
+let g:neosolarized_vertSplitBgTrans = 0
+let g:neosolarized_bold = 1
+let g:neosolarized_underline = 1
+let g:neosolarized_italic = 1
+]])
+
+vim.o.termguicolors = true
 vim.o.background = "dark"
 vim.g.material_style = "lighter" -- darker, lighter, oceanic, palenight, deep ocean
 vim.g.ayucolor = "light" -- light, mirage, dark
 vim.g.catppuccin_flavour = "mocha" -- latte, mocha, macchiato, frappe
-lvim.colorscheme = "catppuccin"
+lvim.colorscheme = "solarized-high"
 
 -- Additional Plugins
 lvim.plugins = {
@@ -195,6 +203,9 @@ lvim.plugins = {
   { "tpope/vim-repeat" },
   { "catppuccin/nvim", as = "catppuccin" },
   { "ayu-theme/ayu-vim" },
+  { "overcache/NeoSolarized" },
+  { "ishan9299/nvim-solarized-lua" },
+  { "tomasr/molokai" },
   {
     "nvim-telescope/telescope-live-grep-args.nvim",
     config = function()
@@ -202,7 +213,15 @@ lvim.plugins = {
     end
   },
   { 'mickael-menu/zk-nvim' },
-  { 'github/copilot.vim' }
+  { 'github/copilot.vim' },
+  { 'vimwiki/vimwiki' },
+  { 'mbbill/undotree' },
+  -- { 'unblevable/quick-scope' },
+  { 'ggandor/lightspeed.nvim' },
+  {
+    'glacambre/firenvim',
+    run = function() vim.fn['firenvim#install'](0) end 
+  },
 }
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -216,6 +235,9 @@ lvim.keys.normal_mode["<C-k>"] = "2<C-y>"
 lvim.keys.normal_mode["<C-z>"] = "<Esc>"
 -- Bind ESC on terminal mode
 lvim.keys.term_mode["<Esc>"] = "<C-\\><c-n>"
+
+-- fix paste without losing the paste register content
+lvim.keys.visual_mode["<leader>p"] = "\"_dP"
 
 -- Which key "alt tab" buffers
 lvim.builtin.which_key.mappings["<tab>"] = { "<C-^>", "Last Buffer" }
@@ -394,8 +416,7 @@ lvim.builtin.telescope.extensions = {
     auto_quoting = true, -- enable/disable auto-quoting
     mappings = {
       i = {
-        ["<C-k>"] = lga_actions.quote_prompt(),
-        ["<C-f>"] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
+        ["<C-f>"] = lga_actions.quote_prompt({ postfix = ' --iglob **/' }),
         ["<C-l>"] = lga_actions.quote_prompt({ postfix = ' -t' }),
       }
     }
@@ -404,3 +425,13 @@ lvim.builtin.telescope.extensions = {
 
 -- which-key timeout
 vim.o.timeoutlen = 500
+
+-- vimwiki
+vim.cmd([[
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
+]])
+
+-- quick-scope
+-- vim.g.qs_lazy_highlight = "1"
+-- vim.g.qs_buftype_blacklist = { 'terminal', 'nofile' }

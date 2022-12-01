@@ -1,98 +1,63 @@
 --[[
-lvim is the global options object
-
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
+ THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+ `lvim` is the global options object
 ]]
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+
+-- vim options
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.relativenumber = true
 
 -- general
-lvim.log.level = "warn"
--- lvim.colorscheme = "onedarker"
+lvim.log.level = "info"
+-- lvim.format_on_save = {
+--   enabled = true,
+--   pattern = "*.lua",
+--   timeout = 1000,
+-- }
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
--- keymappings [view all the defaults by pressing <leader>Lk]
+-- keymappings <https://www.lunarvim.org/docs/configuration/keybindings>
 lvim.leader = "space"
 -- add your own keymapping
--- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
--- unmap a default keymapping
--- vim.keymap.del("n", "<C-Up>")
--- override a default keymapping
--- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
+lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 
--- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
--- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
--- local _, actions = pcall(require, "telescope.actions")
--- lvim.builtin.telescope.defaults.mappings = {
---   -- for input mode
---   i = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---     ["<C-n>"] = actions.cycle_history_next,
---     ["<C-p>"] = actions.cycle_history_prev,
---   },
---   -- for normal mode
---   n = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---   },
--- }
+-- lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
+-- lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 
--- Use which-key to add extra bindings with the leader-key prefix
+-- -- Use which-key to add extra bindings with the leader-key prefix
+-- lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
--- lvim.builtin.which_key.mappings["t"] = {
---   name = "+Trouble",
---   r = { "<cmd>Trouble lsp_references<cr>", "References" },
---   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
---   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
---   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
---   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
---   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
--- }
 
--- TODO: User Config for predefined plugins
--- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
+-- -- Change theme settings
+-- lvim.colorscheme = "lunar"
+
+-- After changing plugin config exit and reopen LunarVim, Run :PackerSync
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
+lvim.builtin.nvimtree.setup.view.side = "left"
 
--- if you don't want all the parsers change this to a table of the ones you want
-lvim.builtin.treesitter.ensure_installed = {
-  "bash",
-  "c",
-  "javascript",
-  "json",
-  "lua",
-  "python",
-  "typescript",
-  "tsx",
-  "css",
-  "rust",
-  "java",
-  "yaml",
-}
+-- Automatically install missing parsers when entering buffer
+lvim.builtin.treesitter.auto_install = true
 
-lvim.builtin.treesitter.ignore_install = { "haskell" }
-lvim.builtin.treesitter.highlight.enabled = true
+-- lvim.builtin.treesitter.ignore_install = { "haskell" }
 
--- generic LSP settings
+-- -- generic LSP settings <https://www.lunarvim.org/docs/languages#lsp-support>
 
--- ---@usage disable automatic installation of servers
--- lvim.lsp.automatic_servers_installation = false
+-- --- disable automatic installation of servers
+-- lvim.lsp.installer.setup.automatic_installation = false
 
--- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
--- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
+-- ---configure a server manually. IMPORTANT: Requires `:LvimCacheReset` to take effect
+-- ---see the full default list `:lua =lvim.lsp.automatic_configuration.skipped_servers`
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 -- local opts = {} -- check the lspconfig documentation for a list of all possible options
 -- require("lvim.lsp.manager").setup("pyright", opts)
 
--- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
--- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
--- vim.tbl_map(function(server)
+-- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. IMPORTANT: Requires `:LvimCacheReset` to take effect
+-- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
+-- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
 --   return server ~= "emmet_ls"
 -- end, lvim.lsp.automatic_configuration.skipped_servers)
 
@@ -106,55 +71,34 @@ lvim.builtin.treesitter.highlight.enabled = true
 --   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 -- end
 
--- -- set a formatter, this will override the language server formatting capabilities (if it exists)
+-- -- linters and formatters <https://www.lunarvim.org/docs/languages#lintingformatting>
 -- local formatters = require "lvim.lsp.null-ls.formatters"
 -- formatters.setup {
---   { command = "black", filetypes = { "python" } },
---   { command = "isort", filetypes = { "python" } },
+--   { command = "stylua" },
 --   {
---     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
 --     command = "prettier",
---     ---@usage arguments to pass to the formatter
---     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
 --     extra_args = { "--print-with", "100" },
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
 --     filetypes = { "typescript", "typescriptreact" },
 --   },
 -- }
-
--- -- set additional linters
 -- local linters = require "lvim.lsp.null-ls.linters"
 -- linters.setup {
 --   { command = "flake8", filetypes = { "python" } },
 --   {
---     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
 --     command = "shellcheck",
---     ---@usage arguments to pass to the formatter
---     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
---     extra_args = { "--severity", "warning" },
---   },
---   {
---     command = "codespell",
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "javascript", "python" },
+--     args = { "--severity", "warning" },
 --   },
 -- }
 
--- Additional Plugins
+-- -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
 -- lvim.plugins = {
---     {"folke/tokyonight.nvim"},
 --     {
 --       "folke/trouble.nvim",
 --       cmd = "TroubleToggle",
 --     },
 -- }
 
--- Autocommands (https://neovim.io/doc/user/autocmd.html)
--- vim.api.nvim_create_autocmd("BufEnter", {
---   pattern = { "*.json", "*.jsonc" },
---   -- enable wrap mode for json files only
---   command = "setlocal wrap",
--- })
+-- -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>
 -- vim.api.nvim_create_autocmd("FileType", {
 --   pattern = "zsh",
 --   callback = function()
@@ -163,8 +107,8 @@ lvim.builtin.treesitter.highlight.enabled = true
 --   end,
 -- })
 
-
 -- #################### Custom Configs ##################
+--
 -- General
 vim.o.scrolloff = 5
 vim.o.list = true
@@ -172,6 +116,23 @@ vim.opt.listchars = 'eol:¬,tab:>·,trail:.,extends:>,precedes:<,multispace:· '
 vim.opt.relativenumber = true;
 vim.o.cmdheight = 1
 lvim.format_on_save = false
+
+lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
+lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+
+lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.treesitter.ensure_installed = {
+  "bash",
+  "javascript",
+  "json",
+  "lua",
+  "python",
+  "typescript",
+  "tsx",
+  "css",
+}
+
 
 -- Colors
 vim.cmd([[
@@ -183,10 +144,9 @@ let g:neosolarized_italic = 1
 
 vim.o.termguicolors = true
 vim.o.background = "dark"
-vim.g.material_style = "lighter" -- darker, lighter, oceanic, palenight, deep ocean
-vim.g.ayucolor = "light" -- light, mirage, dark
-vim.g.catppuccin_flavour = "mocha" -- latte, mocha, macchiato, frappe
-lvim.colorscheme = "solarized-high"
+-- vim.g.ayucolor = "light" -- light, mirage, dark
+vim.g.catppuccin_flavour = "macchiato" -- latte, mocha, macchiato, frappe
+lvim.colorscheme = "catppuccin"
 
 -- Additional Plugins
 lvim.plugins = {
@@ -199,7 +159,6 @@ lvim.plugins = {
   { "Th3Whit3Wolf/one-nvim" },
   { "ThePrimeagen/harpoon" },
   { "tpope/vim-fugitive" },
-  { "marko-cerovac/material.nvim" },
   { "tpope/vim-repeat" },
   { "catppuccin/nvim", as = "catppuccin" },
   { "ayu-theme/ayu-vim" },
@@ -220,7 +179,7 @@ lvim.plugins = {
   { 'ggandor/lightspeed.nvim' },
   {
     'glacambre/firenvim',
-    run = function() vim.fn['firenvim#install'](0) end 
+    run = function() vim.fn['firenvim#install'](0) end
   },
 }
 
@@ -342,54 +301,6 @@ require("zk").setup({
       filetypes = { "markdown" },
     },
   },
-})
-
--- Mateiral theme
-require('material').setup({
-
-  contrast = {
-    sidebars = false, -- Enable contrast for sidebar-like windows ( for example Nvim-Tree )
-    floating_windows = true, -- Enable contrast for floating windows
-    line_numbers = true, -- Enable contrast background for line numbers
-    sign_column = true, -- Enable contrast background for the sign column
-    cursor_line = false, -- Enable darker background for the cursor line
-    non_current_windows = true, -- Enable darker background for non-current windows
-    popup_menu = true, -- Enable lighter background for the popup menu
-  },
-
-  italics = {
-    comments = true, -- Enable italic comments
-    keywords = true, -- Enable italic keywords
-    functions = true, -- Enable italic functions
-    strings = false, -- Enable italic strings
-    variables = false -- Enable italic variables
-  },
-
-  contrast_filetypes = { -- Specify which filetypes get the contrasted (darker) background
-    "terminal", -- Darker terminal background
-    "packer", -- Darker packer background
-    "qf" -- Darker qf list background
-  },
-
-  high_visibility = {
-    oceanic = true,
-    lighter = true,
-    darker = true,
-    palenight = true,
-  },
-
-  disable = {
-    borders = false, -- Disable borders between verticaly split windows
-    background = false, -- Prevent the theme from setting the background (NeoVim then uses your teminal background)
-    term_colors = false, -- Prevent the theme from setting terminal colors
-    eob_lines = false -- Hide the end-of-buffer lines
-  },
-
-  lualine_style = "default", -- Lualine style ( can be 'stealth' or 'default' )
-
-  async_loading = true, -- Load parts of the theme asyncronously for faster startup (turned on by default)
-
-  custom_highlights = {} -- Overwrite highlights with your own
 })
 
 -- Telescope

@@ -145,7 +145,8 @@ let g:neosolarized_italic = 1
 vim.o.termguicolors = true
 vim.o.background = "dark"
 -- vim.g.ayucolor = "light" -- light, mirage, dark
-vim.g.catppuccin_flavour = "macchiato" -- latte, mocha, macchiato, frappe
+vim.g.catppuccin_flavour = "mocha" -- latte, mocha, macchiato, frappe
+-- lvim.colorscheme = "NeoSolarized"
 lvim.colorscheme = "catppuccin"
 
 -- Additional Plugins
@@ -172,7 +173,7 @@ lvim.plugins = {
     end
   },
   { 'mickael-menu/zk-nvim' },
-  { 'github/copilot.vim' },
+  -- { 'github/copilot.vim' },
   { 'vimwiki/vimwiki' },
   { 'mbbill/undotree' },
   -- { 'unblevable/quick-scope' },
@@ -180,6 +181,23 @@ lvim.plugins = {
   {
     'glacambre/firenvim',
     run = function() vim.fn['firenvim#install'](0) end
+  },
+  {
+    'folke/zen-mode.nvim',
+    config = function()
+      require("zen-mode").setup {
+        window = {
+          options = {
+            relativenumber = true,
+          },
+        },
+        plugins = {
+          options = {
+            enabled = false,
+          },
+        },
+      }
+    end
   },
 }
 
@@ -194,6 +212,9 @@ lvim.keys.normal_mode["<C-k>"] = "2<C-y>"
 lvim.keys.normal_mode["<C-z>"] = "<Esc>"
 -- Bind ESC on terminal mode
 lvim.keys.term_mode["<Esc>"] = "<C-\\><c-n>"
+-- align cursor to middle when navigating on search results
+lvim.keys.normal_mode["n"] = "nzz"
+lvim.keys.normal_mode["N"] = "Nzz"
 
 -- fix paste without losing the paste register content
 lvim.keys.visual_mode["<leader>p"] = "\"_dP"
@@ -237,7 +258,7 @@ vim.opt.foldlevelstart = 20
 ---@diagnostic disable-next-line: redundant-parameter
 require("null-ls").setup({
   sources = {
-    require("null-ls").builtins.formatting.prettierd,
+    require("null-ls").builtins.formatting.prettier,
     -- require("null-ls").builtins.formatting.eslint,
     require("null-ls").builtins.code_actions.eslint_d,
     require("null-ls").builtins.diagnostics.eslint_d,

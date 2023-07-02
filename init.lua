@@ -400,6 +400,7 @@ vim.keymap.set('n', '<leader><tab>', '<C-^>', { desc = '[<Tab>] Last Buffer' })
 -- Buffer line
 vim.keymap.set('n', '<S-l>', ':BufferLineCycleNext<CR>')
 vim.keymap.set('n', '<S-h>', ':BufferLineCyclePrev<CR>')
+vim.keymap.set('n', '<leader>bj', ':BufferLinePick<CR>', { desc = '[B]uffer Line [J]ump' })
 vim.keymap.set('n', '<leader>h', ':nohl<cr>', { desc = 'No [H]ighlight' })
 -- quick open config file
 vim.keymap.set('n', '<leader>oc', ':e ~/.config/nvim/init.lua<cr>', { desc = '[O]pen [C]onfig file' })
@@ -459,7 +460,7 @@ vim.keymap.set('n', '<leader>/', function()
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
 
-vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
+vim.keymap.set('n', '<leader>f', require('telescope.builtin').git_files, { desc = 'Search Git [F]iles' })
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })

@@ -148,7 +148,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = true,
-        theme = 'onedark',
+        theme = 'toast',
         component_separators = '|',
         section_separators = '',
         disabled_filetypes = {
@@ -219,6 +219,9 @@ require('lazy').setup({
   },
 
   -- custom plugins
+  { "sainnhe/everforest" },
+  { "jsit/toast.vim" },
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   'jose-elias-alvarez/null-ls.nvim',
   { 'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons', opts = {} },
   {
@@ -368,8 +371,10 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-vim.cmd.colorscheme 'onedark'
-vim.o.background = 'dark'
+vim.g.everforest_background = 'medium'
+vim.g.everforest_better_performance = 1
+vim.o.background = 'light'
+vim.cmd.colorscheme 'everforest'
 vim.o.scrolloff = 5
 vim.o.list = true
 vim.opt.listchars = 'eol:¬,tab:>·,trail:.,extends:>,precedes:<,multispace:· '

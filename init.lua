@@ -183,16 +183,12 @@ require('lazy').setup({
     },
   },
 
-  {
-    -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-    },
-  },
+  -- {
+  --   -- Add indentation guides even on blank lines
+  --   "lukas-reineke/indent-blankline.nvim",
+  --   main = "ibl",
+  --   opts = {}
+  -- },
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim',         opts = {} },
@@ -222,7 +218,7 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
-  -- custom
+  -- custom plugins
   'jose-elias-alvarez/null-ls.nvim',
   { 'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons', opts = {} },
   {
@@ -303,7 +299,7 @@ require('lazy').setup({
       highlight = true,
     },
   }
-  -- end custom
+  -- end custom plugins
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
@@ -404,8 +400,13 @@ vim.keymap.set('n', '<leader>bj', ':BufferLinePick<CR>', { desc = '[B]uffer Line
 vim.keymap.set('n', '<leader>h', ':nohl<cr>', { desc = 'No [H]ighlight' })
 -- quick open config file
 vim.keymap.set('n', '<leader>oc', ':e ~/.config/nvim/init.lua<cr>', { desc = '[O]pen [C]onfig file' })
--- open netrw
-vim.keymap.set('n', '<leader>of', ':NvimTreeFocus<cr>', { desc = '[O]pen [F]ile tree' })
+-- open neovim-tree
+vim.keymap.set('n', '<leader>e', ':NvimTreeFocus<cr>', { desc = '[E]xplore File tree' })
+-- open fugitive
+vim.keymap.set('n', '<leader>gg', ':0Git<cr>', { desc = 'Open [G]it Fugitive' })
+-- navigate through quickfix list
+vim.keymap.set('n', '[q', ':cprev<cr>', { desc = 'Previous Quickfix list item' })
+vim.keymap.set('n', ']q', ':cnext<cr>', { desc = 'Next Quickfix list item' })
 
 -- NeovimTree
 vim.g.loaded_netrw = 1
@@ -472,6 +473,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
+  ignore_install = {},
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -548,7 +550,7 @@ null_ls.setup({
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- [[ Configure LSP ]]
